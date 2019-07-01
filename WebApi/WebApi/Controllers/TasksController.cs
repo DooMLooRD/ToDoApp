@@ -21,10 +21,6 @@ namespace WebApi.Controllers
             _context = context;
         }
 
-
-
-
-
         [Route("api/AddTask")]
         [HttpPost]
         public async Task<ActionResult<task>> PostTask(task Task)
@@ -37,16 +33,11 @@ namespace WebApi.Controllers
             return Ok("New Task Added");
         }
 
-
-
-
         [Route("api/Tasks")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<task>>> GetAllTasks()
         {
             return Ok(await _context.GetAllTasks());
         }
-
-
     }
 }

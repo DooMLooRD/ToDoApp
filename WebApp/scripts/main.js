@@ -28,10 +28,11 @@ function createToDo() {
 }
 
 function addToDo(task) {
+    if(task.id==null){
+        //TODO: send todo to server then fetch id and assign to task.id
+    }
     var todoText = document.createElement('span');
     todoText.textContent = task.decription;
-    var todoTitle = document.createElement('span');
-    todoTitle.textContent = task.title;
     var todoTitle = document.createElement('span');
     todoTitle.textContent = task.title;
     var todoIsDone = document.createElement('input'); 
@@ -44,7 +45,7 @@ function addToDo(task) {
     todoRemoveBtn.textContent = 'Delete';
     todoRemoveBtn.onclick = function(e) {
         todos.removeChild(todoItem);
-        //TODO: remove from server
+        //TODO: remove from server using task.id
     }
 
     var todoItem = document.createElement('li');
@@ -54,5 +55,5 @@ function addToDo(task) {
     todoItem.appendChild(todoRemoveBtn);
 
     todos.appendChild(todoItem);
-    //TODO: send to server
+  
 }

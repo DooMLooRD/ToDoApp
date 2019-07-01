@@ -15,8 +15,6 @@ namespace WebApi.DataAccessLayer
             _toDoListContext = toDoListContext;
         }
 
-
-
         public async Task<task> AddNewTask(task Task)
         {
             await _toDoListContext.Tasks.AddAsync(Task);
@@ -24,7 +22,6 @@ namespace WebApi.DataAccessLayer
 
             return Task;
         }
-
 
         public async Task<List<task>> GetAllTasks()
         {
