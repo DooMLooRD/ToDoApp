@@ -39,5 +39,23 @@ namespace WebApi.Controllers
         {
             return Ok(await _context.GetAllTasks());
         }
+
+        [Route("api/RemoveTask")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteTask([FromQuery] int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                await _context.DeleteTask(id);
+            }
+            catch (ArgumentNullException exception)
+            {
+                return BadRequest(exception.ParamName);
+            }
+
+            return Ok();
+        }
     }
 }
