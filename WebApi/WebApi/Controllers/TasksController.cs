@@ -10,7 +10,7 @@ using WebApi.Model;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
+   
     [ApiController]
     public class TasksController : ControllerBase
     {
@@ -21,6 +21,32 @@ namespace WebApi.Controllers
             _context = context;
         }
 
+
+
+
+        [Route("api/AddTask")]
+        [HttpPost]
+        public async Task<ActionResult<task>> PostTask(task Task)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _context.AddNewTask(Task);
+
+            return Ok("New Task Added");
+        }
+
        
+
+       
+
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<task>>> GetAllTasks()
+        {
+            return Ok(await _context.GetAllTasks());
+        }
+
+
     }
 }

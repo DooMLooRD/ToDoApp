@@ -11,7 +11,7 @@ namespace WebApi.Model
         [Key]
         public int taskId { get; set; }
         public string Title { get; set; }
-        public string Decription { get; set; }
+        public string Description { get; set; }
         public bool isDone { get; set; }
     }
 }
