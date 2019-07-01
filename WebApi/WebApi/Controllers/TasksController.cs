@@ -37,12 +37,10 @@ namespace WebApi.Controllers
             return Ok("New Task Added");
         }
 
-       
-
-       
 
 
 
+        [Route("api/Tasks")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<task>>> GetAllTasks()
         {
