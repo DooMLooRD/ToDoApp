@@ -13,7 +13,7 @@ namespace WebApi.Model
 
         }
 
-        public DbSet<Task> Tasks { get; set; }
+        public DbSet<task> Tasks { get; set; }
 
     }
 }

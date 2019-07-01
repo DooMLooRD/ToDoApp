@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Model
 {
-    public class Task
+    public class task
     {
         [Key]
         public int taskId { get; set; }

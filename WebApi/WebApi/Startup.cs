@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WebApi.DataAccessLayer;
 using WebApi.Model;
 
 namespace WebApi
@@ -28,7 +29,7 @@ namespace WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ToDoListContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
-            //services.AddScoped<TasksAccessLayer>();
+            services.AddScoped<TasksAccessLayer>();
             services.AddCors();
         }
 
