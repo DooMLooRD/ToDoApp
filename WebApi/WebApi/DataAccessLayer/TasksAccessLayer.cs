@@ -25,11 +25,6 @@ namespace WebApi.DataAccessLayer
             return Task;
         }
 
-    }
-
-
-    }
-
 
         public async Task<List<task>> GetAllTasks()
         {
@@ -37,4 +32,4 @@ namespace WebApi.DataAccessLayer
         }
     }
 }
->>>>>>> 1f087d06640d127d7a2a8efa98ef047b5ed270f5
+
