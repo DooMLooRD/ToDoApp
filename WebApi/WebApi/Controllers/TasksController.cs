@@ -21,6 +21,11 @@ namespace WebApi.Controllers
             _context = context;
         }
 
-       
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<task>>> GetAllTasks()
+        {
+            return Ok(await _context.GetAllTasks());
+        }
+
     }
 }

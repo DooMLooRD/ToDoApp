@@ -14,11 +14,10 @@ namespace WebApi.DataAccessLayer
         {
             this._toDoListContext = toDoListContext;
         }
+
+        public async Task<List<task>> GetAllTasks()
+        {
+            return await _toDoListContext.Tasks.AsNoTracking().ToListAsync();
+        }
     }
-
-
-    
-
-
-
 }
