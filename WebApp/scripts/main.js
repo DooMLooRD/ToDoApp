@@ -1,8 +1,8 @@
-const todos = document.getElementById("todos");
+const todosTable = document.getElementById("todosTable");
 const todoDescriptionInput = document.getElementById("todoDescription");
 const todoTitleInput = document.getElementById("todoTitle");
-const todoBtn = document.getElementById("addTodoButton");
-todoBtn.onclick = createToDo;
+const todoBtn = document.getElementById("addToDoButton");
+todoBtn.onclick = addToDo;
 loadToDos();
 
 function loadToDos() {
@@ -10,17 +10,17 @@ function loadToDos() {
         .then(resp => resp.json())
         .then(resp => {
             resp.forEach(task => {
-                addToDo(task);
+                createToDoElement(task);
             });
         });
 }
 
-function createToDo() {
+function addToDo() {
     const todoDesc = todoDescriptionInput.value;
     todoDescriptionInput.value = "";
     const todoTitle = todoTitleInput.value;
     todoTitleInput.value = "";
-    addToDo({
+    createToDoElement({
         title: todoTitle,
         description: todoDesc,
         isDone: false
@@ -28,13 +28,14 @@ function createToDo() {
 }
 
 function deleteToDo(id, todoItem) {
-    todos.removeChild(todoItem);
+    const i = todoItem.parentNode.parentNode.rowIndex;
+    todosTable.deleteRow(i);
     fetch("https://localhost:44325/api/RemoveTask?id=" + id, {
         method: "delete"
     });
 }
 
-function addToDo(task) {
+function createToDoElement(task) {
     if (task.todoId == null) {
         fetch("https://localhost:44325/api/AddTask", {
                 method: 'POST',
@@ -45,12 +46,15 @@ function addToDo(task) {
                 task.todoId = res.todoId;
             });
     }
+    const row = todosTable.insertRow(-1);
+    const description = row.insertCell(0);
+    const title = row.insertCell(1);
+    const isDone = row.insertCell(2);
+    const updateBtn = row.insertCell(3);
+    const removeBtn = row.insertCell(4);
+    description.innerHTML = task.description;
 
-    const todoText = document.createElement("span");
-    todoText.textContent = task.description;
-
-    const todoTitle = document.createElement("span");
-    todoTitle.textContent = task.title;
+    title.innerHTML = task.title;
 
     const todoIsDone = document.createElement("input");
     todoIsDone.type = "checkbox";
@@ -58,21 +62,15 @@ function addToDo(task) {
     todoIsDone.value = task.isDone;
     todoIsDone.id = "todoIsDone";
     todoIsDone.contentEditable = false;
+    isDone.appendChild(todoIsDone);
 
     const todoEditBtn = document.createElement("button");
     todoEditBtn.textContent = "Edit";
     todoEditBtn.onclick = function() { deleteToDo(task.todoId); }
-
+    updateBtn.appendChild(todoEditBtn);
     const todoRemoveBtn = document.createElement("button");
     todoRemoveBtn.textContent = "Delete";
-    todoRemoveBtn.onclick = function() { deleteToDo(task.todoId, todoItem); }
+    todoRemoveBtn.onclick = function() { deleteToDo(task.todoId, row); }
+    removeBtn.appendChild(todoRemoveBtn);
 
-    const todoItem = document.createElement("li");
-    todoItem.appendChild(todoTitle);
-    todoItem.appendChild(todoText);
-    todoItem.appendChild(todoIsDone);
-    todoItem.appendChild(todoEditBtn);
-    todoItem.appendChild(todoRemoveBtn);
-
-    todos.appendChild(todoItem);
 }
