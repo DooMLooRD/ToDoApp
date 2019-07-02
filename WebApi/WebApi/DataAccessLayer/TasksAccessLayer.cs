@@ -36,6 +36,18 @@ namespace WebApi.DataAccessLayer
             _toDoListContext.Tasks.Remove(_task);
             await _toDoListContext.SaveChangesAsync();
         }
+
+        public async Task<task> UpdateTask(int id, task _task)
+        {
+            task _task1 = await _toDoListContext.Tasks.SingleOrDefaultAsync(t => t.taskId == id);
+            if(_task1==null)
+                throw new ArgumentNullException("There's no task with such an id");
+            _task1.Description = _task.Description;
+            _task1.Title = _task.Title;
+            _task1.isDone = _task.isDone;
+            await _toDoListContext.SaveChangesAsync();
+            return _task1;
+        }
     }
 }
 

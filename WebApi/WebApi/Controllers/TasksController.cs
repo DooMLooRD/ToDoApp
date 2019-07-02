@@ -57,5 +57,23 @@ namespace WebApi.Controllers
 
             return Ok();
         }
+
+        [Route("api/UpdateTask")]
+        [HttpPut]
+        public async Task<ActionResult<task>> UpdateTask([FromQuery] int id, [FromBody] task _task)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            try
+            {
+                task _task1 = await _context.UpdateTask(id, _task);
+                return Ok(_task1);
+            }
+            catch (ArgumentNullException exception)
+            {
+                return BadRequest(exception.ParamName);
+            }
+        }
+
     }
 }
