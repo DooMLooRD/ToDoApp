@@ -25,7 +25,7 @@ namespace WebApi.Repository
 
         public async Task<List<Todo>> GetAllItemsAsync()
         {
-            return await _dbContext.Todos.AsNoTracking().ToListAsync();
+            return await _dbContext.Todos.Include(p => p.Person).ToListAsync();
 
         }
 
@@ -51,6 +51,19 @@ namespace WebApi.Repository
              await _dbContext.SaveChangesAsync();
             return item;
         }
+
+
+
+        public async Task<Person> AddItemAsync(Person person)
+        {
+            await _dbContext.Persons.AddAsync(person);
+            await _dbContext.SaveChangesAsync();
+
+            return person;
+        }
+
+     
+
 
     }
 }
