@@ -22,17 +22,29 @@ function createToDo() {
   todoTitleInput.value = "";
   addToDo({
     title: todoTitle,
-    decription: todoDesc,
+    description: todoDesc,
     isDone: false
   });
 }
 
 function addToDo(task) {
-  if (task.id == null) {
-    //TODO: send todo to server then fetch id and assign to task.id
+  if (task.taskId == null) {
+    console.log(JSON.stringify(task));
+
+    fetch("https://localhost:44325/api/AddTask", {
+      method: 'POST',
+      body: JSON.stringify(task),
+      headers: {'Content-Type': 'application/json'}
+     
+
+    })
+      .then(res => res.json).then(res => {
+        console.log(res);
+        task.taskId = res.taskId;
+      });
   }
   var todoText = document.createElement("span");
-  todoText.textContent = task.decription;
+  todoText.textContent = task.description;
   var todoTitle = document.createElement("span");
   todoTitle.textContent = task.title;
   var todoIsDone = document.createElement("input");
@@ -43,9 +55,9 @@ function addToDo(task) {
 
   var todoRemoveBtn = document.createElement("button");
   todoRemoveBtn.textContent = "Delete";
-  todoRemoveBtn.onclick = function(e) {
+  todoRemoveBtn.onclick = function (e) {
     todos.removeChild(todoItem);
-    fetch("https://localhost:44325/api/RemoveTask?=id" + task.taskId, {
+    fetch("https://localhost:44325/api/RemoveTask?id=" + task.taskId, {
       method: "delete"
     }).then(response => console.log(response));
   };

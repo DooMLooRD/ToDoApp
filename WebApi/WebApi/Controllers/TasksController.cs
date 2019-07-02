@@ -30,7 +30,7 @@ namespace WebApi.Controllers
 
             await _context.AddNewTask(Task);
 
-            return Ok("New Task Added");
+            return Ok(Task);
         }
 
         [Route("api/Tasks")]
