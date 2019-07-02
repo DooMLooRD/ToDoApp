@@ -45,7 +45,7 @@ function addToDo(task) {
   todoRemoveBtn.textContent = "Delete";
   todoRemoveBtn.onclick = function(e) {
     todos.removeChild(todoItem);
-    fetch("https://localhost:44325/api/RemoveTask?=id" + task.taskId, {
+    fetch("https://localhost:44325/api/RemoveTask?id=" + task.taskId, {
       method: "delete"
     }).then(response => console.log(response));
   };
