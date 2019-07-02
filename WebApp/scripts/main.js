@@ -29,17 +29,12 @@ function createToDo() {
 
 function addToDo(task) {
   if (task.taskId == null) {
-    console.log(JSON.stringify(task));
-
     fetch("https://localhost:44325/api/AddTask", {
       method: 'POST',
       body: JSON.stringify(task),
       headers: {'Content-Type': 'application/json'}
-     
-
     })
-      .then(res => res.json).then(res => {
-        console.log(res);
+      .then(res => res.json()).then(res => {
         task.taskId = res.taskId;
       });
   }
