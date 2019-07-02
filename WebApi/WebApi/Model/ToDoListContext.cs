@@ -8,12 +8,21 @@ namespace WebApi.Model
 {
     public class ToDoListContext: DbContext
     {
+        public DbSet<Todo> Todos { get; set; }
+        public DbSet<Person> Persons { get; set; }
+
         public ToDoListContext(DbContextOptions<ToDoListContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Todo> Todos { get; set; }
+       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Person>().HasMany(t => t.Todos)
+                 .WithOne(p => p.Person)
+                 .IsRequired();
+        }
 
     }
 }
