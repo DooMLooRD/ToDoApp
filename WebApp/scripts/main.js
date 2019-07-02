@@ -35,14 +35,14 @@ function deleteToDo(id, todoItem) {
 }
 
 function addToDo(task) {
-    if (task.taskId == null) {
+    if (task.todoId == null) {
         fetch("https://localhost:44325/api/AddTask", {
                 method: 'POST',
                 body: JSON.stringify(task),
                 headers: { 'Content-Type': 'application/json' }
             })
             .then(res => res.json()).then(res => {
-                task.taskId = res.taskId;
+                task.todoId = res.todoId;
             });
     }
 
@@ -61,11 +61,11 @@ function addToDo(task) {
 
     const todoEditBtn = document.createElement("button");
     todoEditBtn.textContent = "Edit";
-    todoEditBtn.onclick = function() { deleteToDo(task.taskId); }
+    todoEditBtn.onclick = function() { deleteToDo(task.todoId); }
 
     const todoRemoveBtn = document.createElement("button");
     todoRemoveBtn.textContent = "Delete";
-    todoRemoveBtn.onclick = function() { deleteToDo(task.taskId, todoItem); }
+    todoRemoveBtn.onclick = function() { deleteToDo(task.todoId, todoItem); }
 
     const todoItem = document.createElement("li");
     todoItem.appendChild(todoTitle);

@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using WebApi.DataAccessLayer;
 using WebApi.Model;
+using WebApi.Repository;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -29,7 +23,8 @@ namespace WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ToDoListContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")), ServiceLifetime.Scoped);
-            services.AddScoped<TasksAccessLayer>();
+            services.AddScoped<IRepository<Todo>, TodoRepository>();
+            services.AddScoped<TodoService>();
             services.AddCors();
         }
 

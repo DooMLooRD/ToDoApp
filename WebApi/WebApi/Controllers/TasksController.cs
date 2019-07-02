@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApi.DataAccessLayer;
 using WebApi.Model;
+using WebApi.Services;
 
 namespace WebApi.Controllers
 {
@@ -14,41 +11,41 @@ namespace WebApi.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private TasksAccessLayer _context;
+        private TodoService _todoService;
 
-        public TasksController(TasksAccessLayer context)
+        public TasksController(TodoService todoService)
         {
-            _context = context;
+            _todoService = todoService;
         }
 
         [Route("api/AddTask")]
         [HttpPost]
-        public async Task<ActionResult<task>> PostTask(task Task)
+        public async Task<ActionResult<Todo>> PostTodo(Todo todo)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _context.AddNewTask(Task);
+            await _todoService.AddNewTodo(todo);
 
-            return Ok(Task);
+            return Ok(todo);
         }
 
         [Route("api/Tasks")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<task>>> GetAllTasks()
+        public async Task<ActionResult<IEnumerable<Todo>>> GetAllTodo()
         {
-            return Ok(await _context.GetAllTasks());
+            return Ok(await _todoService.GetAllTodos());
         }
 
         [Route("api/RemoveTask")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteTask([FromQuery] int id)
+        public async Task<IActionResult> DeleteTodo([FromQuery] int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                await _context.DeleteTask(id);
+                await _todoService.DeleteTodo(id);
             }
             catch (ArgumentNullException exception)
             {
@@ -60,14 +57,13 @@ namespace WebApi.Controllers
 
         [Route("api/UpdateTask")]
         [HttpPut]
-        public async Task<ActionResult<task>> UpdateTask([FromQuery] int id, [FromBody] task _task)
+        public async Task<ActionResult<Todo>> UpdateTodo([FromQuery] int id, [FromBody] Todo todo)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             try
             {
-                task _task1 = await _context.UpdateTask(id, _task);
-                return Ok(_task1);
+                return Ok(await _todoService.UpdateTodo(id, todo));
             }
             catch (ArgumentNullException exception)
             {

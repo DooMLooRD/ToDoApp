@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WebApi.Model
 {
-    public class task
+    public class Todo
     {
         [Key]
-        public int taskId { get; set; }
+        public int TodoId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public bool isDone { get; set; }
+        public bool IsDone { get; set; }
     }
 }
