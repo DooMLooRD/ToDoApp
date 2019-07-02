@@ -13,5 +13,6 @@ namespace WebApi.Model
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsDone { get; set; }
+        public Todo Parent { get; set; }
     }
 }
