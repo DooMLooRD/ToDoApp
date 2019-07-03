@@ -24,7 +24,7 @@ Update-Database
 ```
 ### Running Application
 1. Run WebApi using IIS Express
-2. Open in browser ToDoApp/WebApp/pages/index.html
+2. Open ToDoApp/WebApp/pages/index.html in browser
 
 #### Testing Application
 1. Open Postman
@@ -42,3 +42,4 @@ https://localhost:44325/api/AddPerson
   }
 ```
 5. Send request
+6. To add new task fill required fields and type pesel number inside "Assigned to" field.
