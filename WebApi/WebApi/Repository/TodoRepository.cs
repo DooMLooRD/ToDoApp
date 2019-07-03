@@ -29,6 +29,11 @@ namespace WebApi.Repository
 
         }
 
+        public async Task<List<Todo>> GetAllChildItemsAsync(Todo toDo)
+        {
+            return await _dbContext.Todos.Include(p => p.Person).Where(p => p.Parent.TodoId == toDo.TodoId).ToListAsync();
+        }
+
         public async Task RemoveItemAsync(int id)
         {
             Todo todo = await _dbContext.Todos.SingleOrDefaultAsync(t => t.TodoId == id);

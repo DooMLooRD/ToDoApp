@@ -5,8 +5,8 @@ namespace WebApi.Services.DTOs
 {
     public class ToDoDTO 
     {
-        Todo Todo { get; set; }
-        string FullName;
-        List<Todo> Todos;
+        public Todo Todo { get; set; }
+        public string FullName { get; set; }
+        public List<ToDoDTO> Todos { get; set; }
     }
 }

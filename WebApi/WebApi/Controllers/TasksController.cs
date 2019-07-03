@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Model;
 using WebApi.Services;
+using WebApi.Services.DTOs;
 
 namespace WebApi.Controllers
 {
@@ -32,9 +33,9 @@ namespace WebApi.Controllers
 
         [Route("api/Tasks")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Todo>>> GetAllTodo()
+        public async Task<ActionResult<IEnumerable<ToDoDTO>>> GetAllToDos()
         {
-            return Ok(await _todoService.GetAllTodos());
+            return Ok(await _todoService.GetAllTodoDTOs());
         }
 
         [Route("api/RemoveTask")]
