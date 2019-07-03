@@ -4,37 +4,62 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Model;
 using WebApi.Repository;
+using WebApi.Services.DTOs;
 
 namespace WebApi.Services
 {
     public class TodoService
     {
-        private IRepository<Todo> _repository;
+        private IRepository<Todo> _todoRepository;
 
         public TodoService(IRepository<Todo> repository)
         {
-            _repository = repository;
+            _todoRepository = repository;
         }
 
-        public async Task<Todo> AddNewTodo(Todo todo)
+        public async Task<ToDoDTO> AddNewTodo(Todo todo)
         {
-            return await _repository.AddItemAsync(todo);
-
+            return await ConvertToDTO(await _todoRepository.AddItemAsync(todo));
         }
 
-        public async Task<List<Todo>> GetAllTodos()
+        public async Task<List<ToDoDTO>> GetAllTodoDTOs()
         {
-            return await _repository.GetAllItemsAsync();
+            List<ToDoDTO> toDoDTOs = new List<ToDoDTO>();
+            List<Todo> toDos = (await _todoRepository.GetAllItemsAsync()).Where(t=>t.Parent==null).ToList();
+
+            foreach (Todo toDo in toDos)
+            {
+                toDoDTOs.Add(await ConvertToDTO(toDo));
+            }
+
+            return toDoDTOs;
         }
 
         public async Task DeleteTodo(int id)
         {
-            await _repository.RemoveItemAsync(id);
+            await _todoRepository.RemoveItemAsync(id);
         }
 
         public async Task<Todo> UpdateTodo(int id, Todo todo)
         {
-            return await _repository.UpdateItemAsync(id, todo);
+            return await _todoRepository.UpdateItemAsync(id, todo);
+        }
+
+        public async Task<ToDoDTO> ConvertToDTO(Todo toDo)
+        {
+            toDo.Person.Todos = null;
+            ToDoDTO dto = new ToDoDTO
+            {
+                Title = toDo.Title, Description = toDo.Description, TodoId = toDo.TodoId, PersonId = toDo.PersonId, ParentId = toDo.ParentId,
+                Todos =new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)
+            };
+          
+            foreach (Todo todo in await _todoRepository.GetAllChildItemsAsync(toDo))
+            {
+                dto.Todos.Add(await ConvertToDTO(todo));
+            }
+
+            return dto;
         }
     }
 }

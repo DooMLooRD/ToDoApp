@@ -5,17 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Index</title>
 </head>
 
 <body>
-    <h1>ToDo List</h1>
-    <label for="todoTitle">Type new todo's title</label>
-    <input type="text" id="todoTitle">
-    <label for="todoDescription">Type new todo's description</label>
-    <input type="text" id="todoDescription">
-    <button id="addToDoButton"> Add todo</button>
-    <table id="todosTable"></table>
+    <div class="container">
+        <h1>ToDo List</h1>
+        <form>
+            <div class="form-group">
+                <label for="todoAssigned">Assigned to</label>
+                <input class="form-control" type="text" id="todoAssigned">
+            </div>
+            <div class="form-group">
+                <label for="todoTitle">Todo's title</label>
+                <input class="form-control" type="text" id="todoTitle">
+            </div>
+            <div class="form-group">
+                <label for="todoDescription">Todo's description</label>
+                <input class="form-control" type="text" id="todoDescription">
+            </div>
+        </form>
+        <button id="addTodoButton" class="btn btn-primary"> Add todo</button>
+
+        <table class="table mt-5" id="todosTable">
+            <tr>
+                <th scope="col">Assigned to</th>
+                <th scope="col">Task</th>
+            </tr>
+        </table>
+    </div>
+
 
     <script src="../scripts/main.js"></script>
 </body>
