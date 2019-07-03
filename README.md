@@ -5,6 +5,7 @@ Simple ToDoApp
 Install:
 SQL SERVER 2017 EXPRESS EDITION
 Visual Studio 2017 or higher
+Postman
 .NET Core 2.2.0
 
 ### Creating Database
@@ -26,14 +27,18 @@ Update-Database
 2. Open in browser ToDoApp/WebApp/pages/index.html
 
 #### Testing Application
-
-You are provided with pesels assigned to two users.
-If you wish to add new task you should use one of them:
+1. Open Postman
+2. Change Method to Post
+3. Insert link inside the bar
 ```
-11111111111
+https://localhost:44325/api/AddPerson
 ```
-or
+4. Inside Body insert
 ```
-22222222222
+  {
+    "pesel": "97012548731",
+    "name": "Janusz",
+    "surname": "Fasola"
+  }
 ```
-
+5. Send request
