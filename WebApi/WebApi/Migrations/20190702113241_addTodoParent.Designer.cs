@@ -3,35 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Model;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ToDoListContext))]
-    partial class ToDoListContextModelSnapshot : ModelSnapshot
+    [Migration("20190702113241_addTodoParent")]
+    partial class addTodoParent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("WebApi.Model.Person", b =>
-                {
-                    b.Property<string>("Pesel")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Surname");
-
-                    b.HasKey("Pesel");
-
-                    b.ToTable("Persons");
-                });
 
             modelBuilder.Entity("WebApi.Model.Todo", b =>
                 {
@@ -44,15 +32,12 @@ namespace WebApi.Migrations
                     b.Property<bool>("IsDone");
 
                     b.Property<int?>("ParentTodoId");
-                    b.Property<string>("PersonPesel")
-                        .IsRequired();
 
                     b.Property<string>("Title");
 
                     b.HasKey("TodoId");
 
                     b.HasIndex("ParentTodoId");
-                    b.HasIndex("PersonPesel");
 
                     b.ToTable("Todos");
                 });
@@ -62,10 +47,6 @@ namespace WebApi.Migrations
                     b.HasOne("WebApi.Model.Todo", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentTodoId");
-                    b.HasOne("WebApi.Model.Person", "Person")
-                        .WithMany("Todos")
-                        .HasForeignKey("PersonPesel")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
