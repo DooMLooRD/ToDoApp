@@ -17,6 +17,10 @@ namespace WebApi.Repository
 
         public async Task<Todo> AddItemAsync(Todo item)
         {
+            if(_dbContext.Persons.AsNoTracking().FirstOrDefault(e=> e.Pesel==item.PersonId)==null)
+            {
+                throw new ArgumentException("User with given pesel does not exist.");
+            }
             await _dbContext.Todos.AddAsync(item);
             await _dbContext.SaveChangesAsync();
             _dbContext.Entry(item).Reference(c => c.Person).Load();
@@ -25,7 +29,7 @@ namespace WebApi.Repository
 
         public async Task<List<Todo>> GetAllItemsAsync()
         {
-            return await _dbContext.Todos.ToListAsync();
+            return await _dbContext.Todos.Include(p => p.Person).ToListAsync();
 
         }
 

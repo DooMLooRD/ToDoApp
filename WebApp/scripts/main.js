@@ -25,16 +25,23 @@ function addToDo() {
     const todoAssigned = todoAssignedInput.value;
     todoAssignedInput.value = "";
     let todoEl = createTodo(todoAssigned, 0, todoTitle, todoDesc, null);
+
     fetch("https://localhost:44325/api/AddTask", {
             method: "POST",
             body: JSON.stringify(todoEl),
             headers: { "Content-Type": "application/json" }
         })
-        .then(res => res.json())
         .then(res => {
-            todoEl = res;
-            insertTaskRow(todoEl, false);
+            if (res.ok) {
+                return res.json().then(res => {
+                    todoEl = res;
+                    insertTaskRow(todoEl, false);
+                });
+            } else {
+                return res.text().then(text => alert(text));
+            }
         });
+
 }
 
 function deleteTask(id, item) {
@@ -55,7 +62,7 @@ function insertTaskRow(todo, isInit) {
     const person = row.insertCell(0);
     const task = row.insertCell(1);
     const tasksList = document.createElement("ul");
-    person.innerHTML = todo.fullName;
+    person.innerHTML = todo.personFullName;
     task.appendChild(tasksList);
     insertTaskElement(tasksList, todo, isInit);
 }
@@ -113,6 +120,8 @@ function insertTaskElement(tasksList, task, isInit) {
             }).then(() => {
                 taskContainer.removeChild(editDivElement);
                 taskDivElement.style.display = "block";
+            }).catch((exception) => {
+                alert(exception);
             });
 
         };
