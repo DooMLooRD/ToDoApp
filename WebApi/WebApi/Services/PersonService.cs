@@ -25,6 +25,11 @@ namespace WebApi.Services
             return await _personRepository.GetItem(pesel);
         }
 
+        public async Task<Person> AddNewPerson(Person person)
+        {
+            return await _personRepository.AddPerson(person);
+
+        }
 
     }
 

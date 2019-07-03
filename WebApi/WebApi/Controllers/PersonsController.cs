@@ -27,6 +27,19 @@ namespace WebApi.Controllers
         {
             return Ok(await _personService.FindPerson(pesel));
         }
-         
+
+
+        [Route("api/AddPerson")]
+        [HttpPost]
+        public async Task<ActionResult<Person>> PostPerson(Person person)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _personService.AddNewPerson(person);
+
+            return Ok(person);
+        }
+
     }
 }
