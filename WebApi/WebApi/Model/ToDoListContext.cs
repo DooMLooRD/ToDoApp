@@ -19,9 +19,16 @@ namespace WebApi.Model
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>().HasMany(t => t.Todos)
-                 .WithOne(p => p.Person)
-                 .IsRequired();
+            //modelBuilder.Entity<Person>().HasMany(t => t.Todos)
+            //     .WithOne(p => p.Person)
+            //     .IsRequired();
+
+            modelBuilder.Entity<Todo>(todo =>
+            {
+                
+                todo.HasOne(c => c.Parent).WithMany().HasForeignKey(c => c.ParentId).IsRequired(false).OnDelete(DeleteBehavior.ClientSetNull);
+                todo.HasOne(c => c.Person).WithMany(c=> c.Todos).HasForeignKey(c => c.PersonId).OnDelete(DeleteBehavior.Restrict);
+            });
         }
 
     }

@@ -19,7 +19,7 @@ namespace WebApi.Repository
         {
             await _dbContext.Todos.AddAsync(item);
             await _dbContext.SaveChangesAsync();
-
+            _dbContext.Entry(item).Reference(c => c.Person).Load();
             return item;
         }
 
@@ -52,7 +52,9 @@ namespace WebApi.Repository
             Todo todo = await _dbContext.Todos.AsNoTracking().SingleOrDefaultAsync(t => t.TodoId == id);
             if (todo == null)
                 throw new ArgumentNullException("There's no task with such an id");
-            _dbContext.Update(item);
+            _dbContext.Entry(item).Property(c => c.Title).IsModified = true;
+            _dbContext.Entry(item).Property(c => c.Description).IsModified = true;
+
              await _dbContext.SaveChangesAsync();
             return item;
         }

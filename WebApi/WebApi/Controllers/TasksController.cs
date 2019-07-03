@@ -21,14 +21,21 @@ namespace WebApi.Controllers
 
         [Route("api/AddTask")]
         [HttpPost]
-        public async Task<ActionResult<Todo>> PostTodo(Todo todo)
+        public async Task<ActionResult<ToDoDTO>> PostTodo(Todo todo)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            try
+            {
+                return Ok(await _todoService.AddNewTodo(todo));
 
-            await _todoService.AddNewTodo(todo);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
 
-            return Ok(todo);
+            }
+
         }
 
         [Route("api/Tasks")]
@@ -69,6 +76,10 @@ namespace WebApi.Controllers
             catch (ArgumentNullException exception)
             {
                 return BadRequest(exception.ParamName);
+            }
+            catch( Exception exception)
+            {
+                return BadRequest(exception.Message);
             }
         }
 
