@@ -48,7 +48,11 @@ namespace WebApi.Services
         public async Task<ToDoDTO> ConvertToDTO(Todo toDo)
         {
             toDo.Person.Todos = null;
-            ToDoDTO dto = new ToDoDTO {Todo = toDo, Todos=new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)};
+            ToDoDTO dto = new ToDoDTO
+            {
+                Title = toDo.Title, Description = toDo.Description, TodoId = toDo.TodoId, PersonId = toDo.PersonId,
+                Todos =new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)
+            };
           
             foreach (Todo todo in await _todoRepository.GetAllChildItemsAsync(toDo))
             {
