@@ -30,6 +30,10 @@ namespace WebApi.Controllers
                 return Ok(await _todoService.AddNewTodo(todo));
 
             }
+            catch(ArgumentException exception)
+            {
+                return BadRequest(exception.Message);
+            }
             catch (Exception exception)
             {
                 return BadRequest(exception.Message);
