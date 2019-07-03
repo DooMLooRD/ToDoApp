@@ -35,10 +35,23 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            try
+            {
+                await _personService.AddNewPerson(person);
+                return Ok(person);
 
-            await _personService.AddNewPerson(person);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception);
 
-            return Ok(person);
+            }
+
+
+            
+
+
+           
         }
 
     }
