@@ -50,7 +50,7 @@ namespace WebApi.Services
             toDo.Person.Todos = null;
             ToDoDTO dto = new ToDoDTO
             {
-                Title = toDo.Title, Description = toDo.Description, TodoId = toDo.TodoId, PersonId = toDo.PersonId,
+                Title = toDo.Title, Description = toDo.Description, TodoId = toDo.TodoId, PersonId = toDo.PersonId, ParentId = toDo.ParentId,
                 Todos =new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)
             };
           

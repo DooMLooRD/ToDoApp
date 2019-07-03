@@ -10,6 +10,7 @@ namespace WebApi.Services.DTOs
         public string Description { get; set; }
         public bool IsDone { get; set; }
         public string PersonId { get; set; }
+        public int? ParentId { get; set; }
 
         public string PersonFullName { get; set; }
         public List<ToDoDTO> Todos { get; set; }
