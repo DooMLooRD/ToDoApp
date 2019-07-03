@@ -7,76 +7,14 @@ todoBtn.onclick = addToDo;
 loadToDos();
 
 function loadToDos() {
-    insertTaskRow({
-            person: "person",
-            todoId: 0,
-            title: "title1",
-            description: "description",
-            Todos: [{
-                    person: "person",
-                    todoId: 1,
-                    title: "title2",
-                    description: "description",
-                    Todos: [{
-                        person: "person",
-                        todoId: 0,
-                        title: "title1",
-                        description: "description",
-                        Todos: [{
-                                person: "person",
-                                todoId: 1,
-                                title: "title2",
-                                description: "description",
-                                Todos: []
-                            },
-                            {
-                                person: "person",
-                                todoId: 2,
-                                title: "title3",
-                                description: "description",
-                                Todos: []
-                            }
-                        ]
-                    }]
-                },
-                {
-                    person: "person",
-                    todoId: 2,
-                    title: "title3",
-                    description: "description",
-                    Todos: [{
-                        person: "person",
-                        todoId: 0,
-                        title: "title1",
-                        description: "description",
-                        Todos: [{
-                                person: "person",
-                                todoId: 1,
-                                title: "title2",
-                                description: "description",
-                                Todos: []
-                            },
-                            {
-                                person: "person",
-                                todoId: 2,
-                                title: "title3",
-                                description: "description",
-                                Todos: []
-                            }
-                        ]
-                    }]
-                }
-            ]
-        },
-        true
-    );
-    // fetch("https://localhost:44325/api/Tasks")
-    //     .then(resp => resp.json())
-    //     .then(resp => {
-    //         resp.forEach(task => {
-    //             createToDoElement(task);
-    //         });
-    //     });
+
+    fetch("https://localhost:44325/api/Tasks")
+        .then(resp => resp.json())
+        .then(resp => {
+            resp.forEach(task => {
+                insertTaskRow(task, true);
+            });
+        });
 }
 
 function addToDo() {
@@ -86,24 +24,17 @@ function addToDo() {
     todoTitleInput.value = "";
     const todoAssigned = todoAssignedInput.value;
     todoAssignedInput.value = "";
-    const todoEl = {
-        person: todoAssigned,
-        todoId: 2,
-        title: todoTitle,
-        description: todoDesc
-    };
-    insertTaskRow(todoEl, false);
-    //   if (task.todoId == null) {
-    //     fetch("https://localhost:44325/api/AddTask", {
-    //       method: "POST",
-    //       body: JSON.stringify(task),
-    //       headers: { "Content-Type": "application/json" }
-    //     })
-    //       .then(res => res.json())
-    //       .then(res => {
-    //         task.todoId = res.todoId;
-    //       });
-    //   }
+    let todoEl = createTodo(todoAssigned, 0, todoTitle, todoDesc, null);
+    fetch("https://localhost:44325/api/AddTask", {
+            method: "POST",
+            body: JSON.stringify(todoEl),
+            headers: { "Content-Type": "application/json" }
+        })
+        .then(res => res.json())
+        .then(res => {
+            todoEl = res;
+            insertTaskRow(todoEl, false);
+        });
 }
 
 function deleteTask(id, item) {
@@ -114,9 +45,9 @@ function deleteTask(id, item) {
         parent = parent.parentNode.parentNode;
         parent.parentNode.removeChild(parent);
     }
-    //   fetch("https://localhost:44325/api/RemoveTask?id=" + id, {
-    //     method: "delete"
-    //   });
+    fetch("https://localhost:44325/api/RemoveTask?id=" + id, {
+        method: "delete"
+    });
 }
 
 function insertTaskRow(todo, isInit) {
@@ -124,7 +55,7 @@ function insertTaskRow(todo, isInit) {
     const person = row.insertCell(0);
     const task = row.insertCell(1);
     const tasksList = document.createElement("ul");
-    person.innerHTML = todo.person;
+    person.innerHTML = todo.fullName;
     task.appendChild(tasksList);
     insertTaskElement(tasksList, todo, isInit);
 }
@@ -137,11 +68,11 @@ function insertTaskElement(tasksList, task, isInit) {
 
     const title = document.createElement("span");
     title.classList.add("m-2");
-    title.innerText = task.title;
+    title.innerText = task.todo.title;
 
     const description = document.createElement("span");
     description.classList.add("m-2");
-    description.innerText = task.description;
+    description.innerText = task.todo.description;
 
     const addSubtaskBtn = document.createElement("button");
     addSubtaskBtn.textContent = "Add subtask";
@@ -159,9 +90,9 @@ function insertTaskElement(tasksList, task, isInit) {
         const newTitleInput = document.createElement("input");
         const newDescInput = document.createElement("input");
         const saveBtn = document.createElement("button");
-        newTitleInput.value = task.title;
+        newTitleInput.value = task.todo.title;
         newTitleInput.className += "m-2 form-control";
-        newDescInput.value = task.description;
+        newDescInput.value = task.todo.description;
         newDescInput.className += "m-2 form-control";
         saveBtn.textContent = "Save";
         saveBtn.className += "m-2 btn btn-primary";
@@ -172,17 +103,18 @@ function insertTaskElement(tasksList, task, isInit) {
         saveBtn.onclick = function() {
             title.innerText = newTitleInput.value;
             description.innerText = newDescInput.value;
-            task.title = newTitleInput.value;
-            task.description = newDescInput.value;
-            //   fetch("https://localhost:44325/api/UpdateTask?id=" + task.todoId, {
-            //     method: "PUT",
-            //     body: JSON.stringify(task),
-            //     headers: { "Content-Type": "application/json" }
-            //   }).then(response => {
-            //     response.json();
-            //   });
-            taskContainer.removeChild(editDivElement);
-            taskDivElement.style.display = "block";
+            const updatedTask = createTodo(task.todo.personId, task.todo.todoId, newTitleInput.value, newDescInput.value, task.todo.parentId);
+            task.todo.title = newTitleInput.value;
+            task.todo.description = newDescInput.value;
+            fetch("https://localhost:44325/api/UpdateTask?id=" + task.todo.todoId, {
+                method: "PUT",
+                body: JSON.stringify(updatedTask),
+                headers: { "Content-Type": "application/json" }
+            }).then(() => {
+                taskContainer.removeChild(editDivElement);
+                taskDivElement.style.display = "block";
+            });
+
         };
     };
 
@@ -190,7 +122,7 @@ function insertTaskElement(tasksList, task, isInit) {
     removeTaskBtn.className += "m-2 btn btn-primary";
     removeTaskBtn.textContent = "Remove task";
     removeTaskBtn.onclick = function() {
-        deleteTask(task.todoId, taskElement);
+        deleteTask(task.todo.todoId, taskElement);
     };
 
     taskDivElement.appendChild(title);
@@ -203,8 +135,8 @@ function insertTaskElement(tasksList, task, isInit) {
     taskElement.appendChild(subtaskList);
 
     if (isInit) {
-        if (task.Todos.length > 0) {
-            task.Todos.forEach(todo => insertTaskElement(subtaskList, todo));
+        if (task.todos.length > 0) {
+            task.todos.forEach(todo => insertTaskElement(subtaskList, todo, isInit));
         }
     }
 
@@ -226,33 +158,37 @@ function createSubtask(tasksList, parent) {
     taskElement.appendChild(newDescInput);
     taskElement.appendChild(saveBtn);
     saveBtn.onclick = function() {
+
         let todo = createTodo(
-            parent.person,
-            null,
+            parent.todo.personId,
+            0,
             newTitleInput.value,
             newDescInput.value,
-            parent.todoId
+            parent.todo.todoId
         );
-        // fetch("https://localhost:44325/api/AddTask", {
-        //   method: "POST",
-        //   body: JSON.stringify(todo),
-        //   headers: { "Content-Type": "application/json" }
-        // })
-        //   .then(res => res.json())
-        //   .then(res => {
-        //     task.todoId = res.todoId;
-        //   });
-        taskElement.parentNode.removeChild(taskElement);
-        insertTaskElement(tasksList, todo, false);
+
+        fetch("https://localhost:44325/api/AddTask", {
+                method: "POST",
+                body: JSON.stringify(todo),
+                headers: { "Content-Type": "application/json" }
+            })
+            .then(res => res.json())
+            .then(res => {
+                todo = res;
+                taskElement.parentNode.removeChild(taskElement);
+                insertTaskElement(tasksList, todo, false);
+            });
+
     };
     tasksList.appendChild(taskElement);
 }
 
-function createTodo(person, todoId, title, description, parentId) {
+function createTodo(personId, todoId, title, description, parentId) {
     return {
-        person: person,
+        personId: personId,
         todoId: todoId,
         title: title,
+        isDone: false,
         description: description,
         parentId: parentId
     };
