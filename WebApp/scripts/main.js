@@ -3,12 +3,18 @@ const todoAssignedInput = document.getElementById("todoAssigned");
 const todoDescriptionInput = document.getElementById("todoDescription");
 const todoTitleInput = document.getElementById("todoTitle");
 const todoBtn = document.getElementById("addTodoButton");
+const todoApiUrl = "https://localhost:44325/api/";
+const addTodoUrl = todoApiUrl + "AddTask";
+const updateTodoUrl = todoApiUrl + "UpdateTask";
+const removeTodoUrl = todoApiUrl + "RemoveTask";
+const getAllTodoUrl = todoApiUrl + "Tasks";
+
 todoBtn.onclick = addToDo;
 loadToDos();
 
 function loadToDos() {
 
-    fetch("https://localhost:44325/api/Tasks")
+    fetch(getAllTodoUrl)
         .then(resp => resp.json())
         .then(resp => {
             resp.forEach(task => {
@@ -26,7 +32,7 @@ function addToDo() {
     todoAssignedInput.value = "";
     let todoEl = createTodo(todoAssigned, 0, todoTitle, todoDesc, null);
 
-    fetch("https://localhost:44325/api/AddTask", {
+    fetch(addTodoUrl, {
             method: "POST",
             body: JSON.stringify(todoEl),
             headers: { "Content-Type": "application/json" }
@@ -52,7 +58,7 @@ function deleteTask(id, item) {
         parent = parent.parentNode.parentNode;
         parent.parentNode.removeChild(parent);
     }
-    fetch("https://localhost:44325/api/RemoveTask?id=" + id, {
+    fetch(removeTodoUrl + "?id=" + id, {
         method: "delete"
     });
 }
@@ -113,7 +119,7 @@ function insertTaskElement(tasksList, task, isInit) {
             const updatedTask = createTodo(task.todo.personId, task.todo.todoId, newTitleInput.value, newDescInput.value, task.todo.parentId);
             task.todo.title = newTitleInput.value;
             task.todo.description = newDescInput.value;
-            fetch("https://localhost:44325/api/UpdateTask?id=" + task.todo.todoId, {
+            fetch(updateTodoUrl + "?id=" + task.todo.todoId, {
                 method: "PUT",
                 body: JSON.stringify(updatedTask),
                 headers: { "Content-Type": "application/json" }
@@ -176,7 +182,7 @@ function createSubtask(tasksList, parent) {
             parent.todo.todoId
         );
 
-        fetch("https://localhost:44325/api/AddTask", {
+        fetch(addTodoUrl, {
                 method: "POST",
                 body: JSON.stringify(todo),
                 headers: { "Content-Type": "application/json" }

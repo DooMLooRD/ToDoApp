@@ -17,7 +17,7 @@ namespace WebApi.Repository
 
         public async Task<Todo> AddItemAsync(Todo item)
         {
-            if(_dbContext.Persons.AsNoTracking().FirstOrDefault(e=> e.Pesel==item.PersonId)==null)
+            if (_dbContext.Persons.AsNoTracking().FirstOrDefault(e => e.Pesel == item.PersonId) == null)
             {
                 throw new ArgumentException("User with given pesel does not exist.");
             }
@@ -43,13 +43,26 @@ namespace WebApi.Repository
             Todo todo = await _dbContext.Todos.SingleOrDefaultAsync(t => t.TodoId == id);
             if (todo == null)
                 throw new ArgumentNullException("There's no task with such an id");
-            _dbContext.Todos.Remove(todo);
+            await RemoveParenWithChildren(todo);
             await _dbContext.SaveChangesAsync();
+        }
+
+        private async Task RemoveParenWithChildren(Todo todo)
+        {
+            List<Todo> children = await GetAllChildItemsAsync(todo);
+            if (children != null && children.Count > 0)
+            {
+                foreach (Todo child in children)
+                {
+                    await RemoveParenWithChildren(child);
+                }
+            }
+            _dbContext.Todos.Remove(todo);
         }
 
         public async Task<Todo> UpdateItemAsync(int id, Todo item)
         {
-            if(id!= item.TodoId)
+            if (id != item.TodoId)
             {
                 throw new ArgumentNullException("Given ids are not valid.");
             }
@@ -59,7 +72,7 @@ namespace WebApi.Repository
             _dbContext.Entry(item).Property(c => c.Title).IsModified = true;
             _dbContext.Entry(item).Property(c => c.Description).IsModified = true;
 
-             await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return item;
         }
 
@@ -73,7 +86,7 @@ namespace WebApi.Repository
             return person;
         }
 
-     
+
 
 
     }
