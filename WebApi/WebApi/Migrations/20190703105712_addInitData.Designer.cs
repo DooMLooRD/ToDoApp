@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Model;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(ToDoListContext))]
-    partial class ToDoListContextModelSnapshot : ModelSnapshot
+    [Migration("20190703105712_addInitData")]
+    partial class addInitData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace WebApi.Migrations
                     b.HasData(
                         new
                         {
-                            Pesel = "11111111111",
+                            Pesel = "111111111",
                             BirthDate = new DateTime(1997, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Login = "admin",
                             Name = "Jan",
@@ -52,7 +54,7 @@ namespace WebApi.Migrations
                         },
                         new
                         {
-                            Pesel = "22222222222",
+                            Pesel = "222222222",
                             BirthDate = new DateTime(1997, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Login = "krysia",
                             Name = "Krysia",
@@ -84,33 +86,6 @@ namespace WebApi.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("Todos");
-
-                    b.HasData(
-                        new
-                        {
-                            TodoId = 1,
-                            Description = "Description 1",
-                            IsDone = false,
-                            PersonId = "11111111111",
-                            Title = "Title 1"
-                        },
-                        new
-                        {
-                            TodoId = 2,
-                            Description = "Description 2",
-                            IsDone = false,
-                            PersonId = "22222222222",
-                            Title = "Title 2"
-                        },
-                        new
-                        {
-                            TodoId = 3,
-                            Description = "Description 3",
-                            IsDone = false,
-                            ParentId = 1,
-                            PersonId = "11111111111",
-                            Title = "Title 3"
-                        });
                 });
 
             modelBuilder.Entity("WebApi.Model.Todo", b =>
