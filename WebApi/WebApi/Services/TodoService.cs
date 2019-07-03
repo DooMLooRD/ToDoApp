@@ -19,7 +19,7 @@ namespace WebApi.Services
 
         public async Task<ToDoDTO> AddNewTodo(Todo todo)
         {
-            return await ConvertToDTO(await _repository.AddItemAsync(todo));
+            return await ConvertToDTO(await _todoRepository.AddItemAsync(todo));
         }
 
         public async Task<List<ToDoDTO>> GetAllTodoDTOs()
@@ -48,8 +48,8 @@ namespace WebApi.Services
         public async Task<ToDoDTO> ConvertToDTO(Todo toDo)
         {
             toDo.Person.Todos = null;
-            ToDoDTO dto = new ToDoDTO {Todo = toDo, Todos=new List<ToDoDTO>(), FullName = (toDo.Person.Name + " " +toDo.Person.Surname)};
-            foreach (Todo todo in  await _repository.GetAllChildItemsAsync(toDo))
+            ToDoDTO dto = new ToDoDTO {Todo = toDo, Todos=new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)};
+            foreach (Todo todo in  await _todoRepository.GetAllChildItemsAsync(toDo))
 
             {
                 dto.Todos.Add(await ConvertToDTO(todo));

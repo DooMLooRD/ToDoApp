@@ -55,7 +55,7 @@ function insertTaskRow(todo, isInit) {
     const person = row.insertCell(0);
     const task = row.insertCell(1);
     const tasksList = document.createElement("ul");
-    person.innerHTML = todo.fullName;
+    person.innerHTML = todo.personFullName;
     task.appendChild(tasksList);
     insertTaskElement(tasksList, todo, isInit);
 }

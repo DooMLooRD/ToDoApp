@@ -25,7 +25,7 @@ namespace WebApi.Repository
 
         public async Task<List<Todo>> GetAllItemsAsync()
         {
-            return await _dbContext.Todos.ToListAsync();
+            return await _dbContext.Todos.Include(p => p.Person).ToListAsync();
 
         }
 
