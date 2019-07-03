@@ -10,23 +10,23 @@ namespace WebApi.Services
 {
     public class TodoService
     {
-        private IRepository<Todo> _repository;
+        private IRepository<Todo> _todoRepository;
 
         public TodoService(IRepository<Todo> repository)
         {
-            _repository = repository;
+            _todoRepository = repository;
         }
 
         public async Task<Todo> AddNewTodo(Todo todo)
         {
-            return await _repository.AddItemAsync(todo);
+            return await _todoRepository.AddItemAsync(todo);
 
         }
 
         public async Task<List<ToDoDTO>> GetAllTodoDTOs()
         {
             List<ToDoDTO> toDoDTOs = new List<ToDoDTO>();
-            List<Todo> toDos = (await _repository.GetAllItemsAsync()).Where(t=>t.Parent==null).ToList();
+            List<Todo> toDos = (await _todoRepository.GetAllItemsAsync()).Where(t=>t.Parent==null).ToList();
 
             foreach (Todo toDo in toDos)
             {
@@ -38,18 +38,19 @@ namespace WebApi.Services
 
         public async Task DeleteTodo(int id)
         {
-            await _repository.RemoveItemAsync(id);
+            await _todoRepository.RemoveItemAsync(id);
         }
 
         public async Task<Todo> UpdateTodo(int id, Todo todo)
         {
-            return await _repository.UpdateItemAsync(id, todo);
+            return await _todoRepository.UpdateItemAsync(id, todo);
         }
 
-        public async Task<ToDoDTO> ConvertToDTO(Todo toDo)
+        private async Task<ToDoDTO> ConvertToDTO(Todo toDo)
         {
             ToDoDTO dto = new ToDoDTO {Todo = toDo, Todos=new List<ToDoDTO>(), PersonFullName = (toDo.Person.Name + " " +toDo.Person.Surname)};
             foreach (Todo todo in  await _repository.GetAllChildItemsAsync(toDo))
+
             {
                 dto.Todos.Add(await ConvertToDTO(todo));
             }
