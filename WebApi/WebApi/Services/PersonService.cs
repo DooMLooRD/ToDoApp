@@ -27,6 +27,12 @@ namespace WebApi.Services
 
         public async Task<Person> AddNewPerson(Person person)
         {
+
+            string currentYear = DateTime.Now.Year.ToString();
+            int numberCurrentYear = Int32.Parse(currentYear);
+            string textdateOfBirth = person.Pesel.Substring(0,2);
+            int numberdateOfBirth = Int32.Parse(textdateOfBirth);
+            person.Age = numberCurrentYear - (numberdateOfBirth + 1900);
             return await _personRepository.AddPerson(person);
 
         }
