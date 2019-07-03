@@ -24,7 +24,9 @@ namespace WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ToDoListContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnection")), ServiceLifetime.Scoped);
             services.AddScoped<IRepository<Todo>, TodoRepository>();
+            services.AddScoped<IPersonRepository<Person>, PersonRepository>();
             services.AddScoped<TodoService>();
+            services.AddScoped<PersonService>();
             services.AddCors();
         }
 
