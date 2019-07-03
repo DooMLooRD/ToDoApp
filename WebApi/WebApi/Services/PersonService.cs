@@ -28,11 +28,14 @@ namespace WebApi.Services
         public async Task<Person> AddNewPerson(Person person)
         {
 
-            string currentYear = DateTime.Now.Year.ToString();
-            int numberCurrentYear = Int32.Parse(currentYear);
-            string textdateOfBirth = person.Pesel.Substring(0,2);
-            int numberdateOfBirth = Int32.Parse(textdateOfBirth);
-            person.Age = numberCurrentYear - (numberdateOfBirth + 1900);
+            string year = person.Pesel.Substring(0, 2); 
+            string month = person.Pesel.Substring(2,2);
+            string day = person.Pesel.Substring(4,2);
+            int iyear = Int32.Parse(year);
+            iyear = 1900 + iyear; 
+            int imonth = Int32.Parse(month);
+            int iday = Int32.Parse(day);
+            person.BirthDate = new DateTime(iyear, imonth, iday, 0, 0, 0);
             return await _personRepository.AddPerson(person);
 
         }
