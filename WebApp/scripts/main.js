@@ -81,11 +81,11 @@ function insertTaskElement(tasksList, task, isInit) {
 
     const title = document.createElement("span");
     title.classList.add("m-2");
-    title.innerText = task.todo.title;
+    title.innerText = task.title;
 
     const description = document.createElement("span");
     description.classList.add("m-2");
-    description.innerText = task.todo.description;
+    description.innerText = task.description;
 
     const addSubtaskBtn = document.createElement("button");
     addSubtaskBtn.textContent = "Add subtask";
@@ -103,9 +103,9 @@ function insertTaskElement(tasksList, task, isInit) {
         const newTitleInput = document.createElement("input");
         const newDescInput = document.createElement("input");
         const saveBtn = document.createElement("button");
-        newTitleInput.value = task.todo.title;
+        newTitleInput.value = task.title;
         newTitleInput.className += "m-2 form-control";
-        newDescInput.value = task.todo.description;
+        newDescInput.value = task.description;
         newDescInput.className += "m-2 form-control";
         saveBtn.textContent = "Save";
         saveBtn.className += "m-2 btn btn-primary";
@@ -116,10 +116,10 @@ function insertTaskElement(tasksList, task, isInit) {
         saveBtn.onclick = function() {
             title.innerText = newTitleInput.value;
             description.innerText = newDescInput.value;
-            const updatedTask = createTodo(task.todo.personId, task.todo.todoId, newTitleInput.value, newDescInput.value, task.todo.parentId);
-            task.todo.title = newTitleInput.value;
-            task.todo.description = newDescInput.value;
-            fetch(updateTodoUrl + "?id=" + task.todo.todoId, {
+            const updatedTask = createTodo(task.personId, task.todoId, newTitleInput.value, newDescInput.value, task.parentId);
+            task.title = newTitleInput.value;
+            task.description = newDescInput.value;
+            fetch(updateTodoUrl + "?id=" + task.todoId, {
                 method: "PUT",
                 body: JSON.stringify(updatedTask),
                 headers: { "Content-Type": "application/json" }
@@ -137,7 +137,7 @@ function insertTaskElement(tasksList, task, isInit) {
     removeTaskBtn.className += "m-2 btn btn-primary";
     removeTaskBtn.textContent = "Remove task";
     removeTaskBtn.onclick = function() {
-        deleteTask(task.todo.todoId, taskElement);
+        deleteTask(task.todoId, taskElement);
     };
 
     taskDivElement.appendChild(title);
@@ -175,11 +175,11 @@ function createSubtask(tasksList, parent) {
     saveBtn.onclick = function() {
 
         let todo = createTodo(
-            parent.todo.personId,
+            parent.personId,
             0,
             newTitleInput.value,
             newDescInput.value,
-            parent.todo.todoId
+            parent.todoId
         );
 
         fetch(addTodoUrl, {
