@@ -3,10 +3,10 @@ Simple ToDoApp
 
 ## Prerequisites
 Install:
-SQL SERVER 2017 EXPRESS EDITION
-Visual Studio 2017 or higher
-Postman
-.NET Core 2.2.0
+1. SQL SERVER 2017 EXPRESS EDITION
+2. Visual Studio 2017 or higher
+3. Postman
+4. .NET Core 2.2.0
 
 ### Creating Database
 
