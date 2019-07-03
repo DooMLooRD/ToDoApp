@@ -2,9 +2,10 @@
 Simple ToDoApp
 
 ## Prerequisites
-SQL SERVER 2017 EXPRESS EDITION,
-Latest version of Visual Studio 2019,
-.NET Core 2.2.0,
+Install:
+SQL SERVER 2017 EXPRESS EDITION
+Visual Studio 2017 or higher
+.NET Core 2.2.0
 
 ### Creating Database
 
@@ -19,5 +20,20 @@ Latest version of Visual Studio 2019,
 4. Make sure that Default project is set to "WebApi" and type belowed command 
 ```
 Update-Database
+```
+### Running Application
+1. Run WebApi using IIS Express
+2. Open in browser ToDoApp/WebApp/pages/index.html
+
+#### Testing Application
+
+You are provided with pesels assigned to two users.
+If you wish to add new task you should use one of them:
+```
+11111111111
+```
+or
+```
+22222222222
 ```
 
