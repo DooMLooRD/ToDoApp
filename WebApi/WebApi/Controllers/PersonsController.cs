@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Model;
@@ -9,7 +10,7 @@ using WebApi.Services;
 
 namespace WebApi.Controllers
 {
-
+    [Authorize]
     [ApiController]
     public class PersonsController : ControllerBase
     {
@@ -39,6 +40,24 @@ namespace WebApi.Controllers
             await _personService.AddNewPerson(person);
 
             return Ok(person);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("api/Authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] Person person)
+        {
+            var user = await _personService.Authenticate(person.Login, person.Password);
+            if (user == null)
+                return BadRequest(new {message = "Login or password is incorrect"});
+            return Ok(user);
+        }
+
+        [Route("api/UsersWithoutPassword")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllWithoutPassword()
+        {
+            var users = await _personService.GetAllWithoutPassword();
+            return Ok(users);
         }
 
     }
