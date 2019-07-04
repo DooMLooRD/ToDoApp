@@ -29,7 +29,15 @@ namespace WebApi.Controllers
             return Ok(await _personService.FindPerson(pesel));
         }
 
+        [AllowAnonymous]
+        [Route("api/Persons")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Person>>> GetAllPersons()
+        {
+            return Ok(await _personService.AllPersons());
+        }
 
+        [AllowAnonymous]
         [Route("api/AddPerson")]
         [HttpPost]
         public async Task<ActionResult<Person>> PostPerson(Person person)
