@@ -8,12 +8,27 @@ const addTodoUrl = todoApiUrl + "AddTask";
 const updateTodoUrl = todoApiUrl + "UpdateTask";
 const removeTodoUrl = todoApiUrl + "RemoveTask";
 const getAllTodoUrl = todoApiUrl + "Tasks";
+const getAllPerson = "https://localhost:44325/api/persons";
 
 todoBtn.onclick = addToDo;
+loadPersons();
 loadToDos();
 
-function loadToDos() {
+function loadPersons() {
+    fetch(getAllPerson)
+        .then(resp => resp.json())
+        .then(resp => {
+            resp.forEach(person => {
+                let option = document.createElement("option");
+                option.value = person.pesel;
+                option.text = person.name + " " + person.surname;
+                todoAssignedInput.add(option);
+            });
+        });
 
+}
+
+function loadToDos() {
     fetch(getAllTodoUrl)
         .then(resp => resp.json())
         .then(resp => {
