@@ -34,15 +34,22 @@ namespace WebApi.Services
             return await _personRepository.GetItem(pesel);
         }
 
+        public async Task<List<Person>> AllPersons()
+        {
+
+            return await _personRepository.GetAllItems();
+        }
+
+
         public async Task<Person> AddNewPerson(Person person)
         {
 
             string year = person.Pesel.Substring(0, 2); 
             string month = person.Pesel.Substring(2,2);
             string day = person.Pesel.Substring(4,2);
-            int iyear = Int32.Parse(year);
-            int imonth = Int32.Parse(month);
-            int iday = Int32.Parse(day);
+            int iyear = int.Parse(year);
+            int imonth = int.Parse(month);
+            int iday = int.Parse(day);
 
             if(person.Pesel.Length!=11)
             {
