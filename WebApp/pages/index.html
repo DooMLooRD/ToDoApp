@@ -28,12 +28,21 @@
         </form>
         <button id="addTodoButton" class="btn btn-primary"> Add todo</button>
 
-        <table class="table mt-5" id="todosTable">
-            <tr>
-                <th scope="col">Assigned to</th>
-                <th scope="col">Task</th>
-            </tr>
-        </table>
+
+        <div id="todosTable" class="mt-5">
+            <div class="row">
+                <h4 class="col-12 col-md-4  font-weight-bold">Assigned to</h4>
+                <h4 class="col-6 col-md-8 font-weight-bold">Task</h4>
+            </div>
+            <div class="row">
+                <hr class="border border-dark col">
+            </div>
+            <div class="row" id="todoRow">
+                <div class="col" id="assigned"></div>
+                <div class="col-8" id="tasks"></div>
+            </div>
+        </div>
+
     </div>
 
 

@@ -68,10 +68,12 @@ function addToDo() {
 function deleteTask(id, item) {
     let parent = item.parentNode;
     parent.removeChild(item);
-    if (parent.parentNode.parentNode.nodeName == "TR") {
+
+    if (parent.parentNode.parentNode.className == "row") {
         //dont ask
         parent = parent.parentNode.parentNode;
         parent.parentNode.removeChild(parent);
+
     }
     fetch(removeTodoUrl + "?id=" + id, {
         method: "delete"
@@ -79,13 +81,20 @@ function deleteTask(id, item) {
 }
 
 function insertTaskRow(todo, isInit) {
-    const row = todosTable.insertRow(-1);
-    const person = row.insertCell(0);
-    const task = row.insertCell(1);
+    const todoRowTemplate = document.getElementById("todoRow").cloneNode(true);
+    const todoAssigned = document.getElementById("assigned");
+    const todoTasks = document.getElementById("tasks");
     const tasksList = document.createElement("ul");
-    person.innerHTML = todo.personFullName;
-    task.appendChild(tasksList);
+
+    todoAssigned.textContent = todo.personFullName;
+    todoTasks.appendChild(tasksList);
+
+    document.getElementById("todoRow").removeAttribute("id");
+    todoAssigned.removeAttribute("id");
+    todoTasks.removeAttribute("id");
+
     insertTaskElement(tasksList, todo, isInit);
+    todosTable.appendChild(todoRowTemplate);
 }
 
 function insertTaskElement(tasksList, task, isInit) {
