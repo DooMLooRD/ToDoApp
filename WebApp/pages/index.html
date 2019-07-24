@@ -19,14 +19,14 @@
             </div>
             <div class="form-group">
                 <label for="todoTitle">Todo's title</label>
-                <input class="form-control" type="text" id="todoTitle">
+                <input class="form-control" type="text" id="todoTitle"  onkeyup="formValidator()" placeholder="Enter yours Todo's title">
             </div>
             <div class="form-group">
                 <label for="todoDescription">Todo's description</label>
-                <input class="form-control" type="text" id="todoDescription">
+                <input class="form-control" type="text" id="todoDescription" onkeyup="formValidator()" placeholder="Enter yours Todo's description">
             </div>
         </form>
-        <button id="addTodoButton" class="btn btn-primary"> Add todo</button>
+        <button id="addTodoButton"  class="btn btn-primary" disabled> Add todo</button>
 
 
         <div id="todosTable" class="mt-5">
@@ -45,8 +45,8 @@
 
     </div>
 
-
     <script src="../scripts/main.js"></script>
+    
 </body>
 
 </html>

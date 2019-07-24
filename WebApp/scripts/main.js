@@ -14,6 +14,14 @@ todoBtn.onclick = addToDo;
 loadPersons();
 loadToDos();
 
+function formValidator() {
+    if(document.getElementById('todoTitle').value=="" || document.getElementById('todoDescription').value==""  ) { 
+           document.getElementById('addTodoButton').disabled = true; 
+       } else { 
+           document.getElementById('addTodoButton').disabled = false;
+       }
+   }
+
 function loadPersons() {
     fetch(getAllPerson)
         .then(resp => resp.json())
@@ -113,7 +121,7 @@ function insertTaskElement(tasksList, task, isInit) {
 
     const addSubtaskBtn = document.createElement("button");
     addSubtaskBtn.textContent = "Add subtask";
-    addSubtaskBtn.className += "m-2 btn btn-primary";
+    addSubtaskBtn.className += "btn btn-success";
     addSubtaskBtn.onclick = function() {
         createSubtask(subtaskList, task);
     };
@@ -158,7 +166,8 @@ function insertTaskElement(tasksList, task, isInit) {
     };
 
     const removeTaskBtn = document.createElement("button");
-    removeTaskBtn.className += "m-2 btn btn-primary";
+    
+    removeTaskBtn.className += "btn btn-danger";
     removeTaskBtn.textContent = "Remove task";
     removeTaskBtn.onclick = function() {
         deleteTask(task.todoId, taskElement);
