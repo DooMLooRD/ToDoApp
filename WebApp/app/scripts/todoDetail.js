@@ -1,4 +1,4 @@
-export class TodoDetail {
+class TodoDetail {
   constructor(
     todoId,
     title,

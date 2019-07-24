@@ -1,99 +1,140 @@
-class TodoDetail {
-  constructor(
-    todoId,
-    title,
-    description,
-    isDone,
-    personId,
-    parentId,
-    personFullName,
-    todos
-  ) {
-    this.todoId = todoId;
-    this.title = title;
-    this.description = description;
-    this.isDone = isDone;
-    this.personId = personId;
-    this.parentId = parentId;
-    this.personFullName = personFullName;
-    this.todos = todos;
-  }
-}
-
-
 const currentDocument = document.currentScript.ownerDocument;
 
 class TodoItem extends HTMLElement {
   constructor(
     todoDetail = new TodoDetail(0, "", "", false, 0, 0, "123213", []),
-    addMode = false
+    isAddMode = false
   ) {
     super();
-    this.addMode = addMode;
+    this.isAddMode = isAddMode;
     this.todoDetail = todoDetail;
   }
 
   connectedCallback() {
-    const shadowRoot = this.attachShadow({ mode: "open" });
+    this.attachShadow({ mode: "open" });
 
     const template = currentDocument.querySelector("#todo-item-template");
     const instance = template.content.cloneNode(true);
-    shadowRoot.appendChild(instance);
-    console.log(shadowRoot);
+    this.shadowRoot.appendChild(instance);
 
-    const addMode = this.shadowRoot.querySelector(".addMode");
-    const editMode = this.shadowRoot.querySelector(".updateMode");
-    const normalMode = this.shadowRoot.querySelector(".normalMode");
-    this.insertSubTasks();
-    normalMode.style.display = this.addMode ? "none" : "block";
-    addMode.style.display = this.addMode ? "block" : "none";
-    editMode.style.display = "none";
+    this.shadowRoot
+      .querySelector(".add-button")
+      .addEventListener("click", () => this.addTodo(this));
+
+    this.shadowRoot
+      .querySelector(".remove-button")
+      .addEventListener("click", () => this.removeTodo(this));
+
+    this.shadowRoot
+      .querySelector(".edit-button")
+      .addEventListener("click", () => this.toggleUpdate(this));
+
+    this.shadowRoot
+      .querySelector(".confirm-update-button")
+      .addEventListener("click", () => this.confirmUpdate(this));
+
+    this.shadowRoot
+      .querySelector(".cancel-update-button")
+      .addEventListener("click", () => this.cancelUpdate(this));
+
+    this.shadowRoot
+      .querySelector(".confirm-add-button")
+      .addEventListener("click", () => this.confirmAdd(this));
+
+    this.shadowRoot
+      .querySelector(".cancel-add-button")
+      .addEventListener("click", () => this.cancelAdd(this));
 
     this.render();
   }
-  
+
   render() {
+    this.addMode = this.shadowRoot.querySelector(".addMode");
+    this.editMode = this.shadowRoot.querySelector(".updateMode");
+    this.normalMode = this.shadowRoot.querySelector(".normalMode");
     this.todoTitle = this.shadowRoot.querySelector(".todo__title");
-    this.todoTitle.value = this.todoDetail.title;
     this.description = this.shadowRoot.querySelector(".todo__description");
+
+    this.normalMode.style.display = this.isAddMode ? "none" : "flex";
+    this.addMode.style.display = this.isAddMode ? "flex" : "none";
+    this.editMode.style.display = "none";
+    this.todoTitle.value = this.todoDetail.title;
     this.description.value = this.todoDetail.description;
+
+    if (this.isAddMode) {
+      this.setReadOnly(this.todoTitle, this.description);
+    }
+
+    this.insertSubTasks();
   }
 
-  addTodo() {
+  addTodo(event) {
     const newTodo = new TodoItem(
-      new TodoDetail(
-        0,
-        "",
-        "",
-        false,
-        this.todoDetail.personId,
-        this.todoDetail.todoId,
-        this.todoDetail.personFullName,
-        []
-      )
+      new TodoDetail(0, "hej", "hej", false, 0, 0, "dupa", []),
+      true
     );
-    const todos = this.shadowRoot.querySelector(".todo__todos");
-    todos.appendChild(newTodo, true);
+    event.shadowRoot.querySelector(".todo__todos").appendChild(newTodo);
   }
 
-  updateTodo() {
-    const editMode = this.shadowRoot.querySelector(".editMode");
-    const normalMode = this.shadowRoot.querySelector(".normalMode");
-    normalMode.style.display = "none";
-    editMode.style.display = "display";
+  removeTodo(event) {
+    event.parentNode.removeChild(event);
   }
 
-  removeTodo() {}
-  confirmUpdate() {}
-  cancelUpdate() {}
-  confirmAdd() {}
-  cancelAdd() {}
+  confirmUpdate(event) {
+    event.toggleUpdate(event);
+    event.todoDetail.title = event.todoTitle.value;
+    event.todoDetail.description = event.description.value;
+  }
+
+  cancelUpdate(event) {
+    event.toggleUpdate(event);
+    event.todoTitle.value = event.todoDetail.title;
+    event.description.value = event.todoDetail.description;
+  }
+
+  toggleUpdate(event) {
+    event.toggleDisplay(event.normalMode, event.editMode);
+    event.setReadOnly(event.description, event.todoTitle);
+  }
+
+  toggleDisplay(...element) {
+    element.forEach(c => {
+      c.style.display = c.style.display === "none" ? "flex" : "none";
+    });
+  }
+
+  setReadOnly(...element) {
+    element.forEach(c => {
+      c.hasAttribute("readonly")
+        ? c.removeAttribute("readonly")
+        : c.setAttribute("readonly", true);
+    });
+  }
+
+  confirmAdd(event) {
+    event.toggleDisplay(event.normalMode, event.addMode);
+    event.setReadOnly(event.description, event.todoTitle);
+    event.todoDetail.title = event.todoTitle.value;
+    event.todoDetail.description = event.description.value;
+  }
+
+  cancelAdd(event) {
+    event.parentNode.removeChild(event);
+  }
+
+  validate(event) {
+    if (event.todoTitle.value === "" || event.description.value === "") {
+      this.setAttribute("disabled", true);
+    } else {
+      this.removeAttribute("disabled");
+    }
+  }
 
   insertSubTasks() {
     if (this.todoDetail && this.todoDetail.todos) {
       const todos = this.shadowRoot.querySelector(".todo__todos");
       this.todoDetail.todos.forEach(todo => {
-        todos.appendChild(todo, false);
+        todos.appendChild(new TodoItem(todo, false));
       });
     }
   }
