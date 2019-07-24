@@ -12,28 +12,29 @@
       </div>
     </div>
     <div class="row normalMode ml-2">
-      <button class="btn btn-success add-button m-2">
+      <button class="btn btn-primary add-button m-2">
         Dodaj
       </button>
-      <button class="btn btn-primary edit-button m-2">Edytuj</button>
+      <button class="btn btn-success edit-button m-2">Edytuj</button>
       <button class="btn btn-danger remove-button m-2">Usuń</button>
     </div>
-    <div class="row updateMode">
-      <button class="btn btn-primary confirm-update-button m-2">
+    <div class="row updateMode ml-2">
+      <button class="btn btn-success confirm-update-button m-2">
         Potwierdź
       </button>
-      <button class="btn btn-primary cancel-update-button m-2">
+      <button class="btn btn-danger cancel-update-button m-2">
         Anuluj
       </button>
     </div>
-    <div class="row addMode">
-      <button class="btn btn-primary confirm-add-button m-2">
+    <div class="row addMode ml-2">
+      <button class="btn btn-success confirm-add-button m-2">
         Potwierdź
       </button>
-      <button class="btn btn-primary cancel-add-button m-2">Anuluj</button>
+      <button class="btn btn-danger cancel-add-button m-2">Anuluj</button>
     </div>
     <ul class="todo__todos"></ul>
   </li>
 </template>
-<script src="./scripts/todoItem.js"></script>
-<script src="./scripts/todoDetail.js"></script>
+<script src="./todoItem.js"></script>
+<script src="./todoItemRender.js"></script>
+<script src="../model/todoDetail.js"></script>

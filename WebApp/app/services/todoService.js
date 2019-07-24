@@ -10,7 +10,7 @@ function createTodo(todo) {
     method: "POST",
     body: JSON.stringify(todo),
     headers: { "Content-Type": "application/json" }
-  });
+  }).then(resp => resp.json());
 }
 
 function updateTodo(todo) {
@@ -18,11 +18,11 @@ function updateTodo(todo) {
     method: "PUT",
     body: JSON.stringify(todo),
     headers: { "Content-Type": "application/json" }
-  });
+  }).then(resp => resp.json());
 }
 
 function removeTodo(id) {
-  fetch(removeTodoUrl + "?id=" + id, {
+  return fetch(removeTodoUrl + "?id=" + id, {
     method: "delete"
   });
 }

@@ -1,4 +1,4 @@
-export default class Todo {
+class Todo {
   constructor(personId, todoId, title, description, parentId) {
     this.personId = personId;
     this.todoId = todoId;
