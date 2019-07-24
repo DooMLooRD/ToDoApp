@@ -1,0 +1,38 @@
+<template id="todo-item-template">
+  <li>
+    <div class="row">
+      <div class="col">
+        <input class="todo__title" readonly />
+      </div>
+      <div class="col">
+        <input class="todo__description" readonly />
+      </div>
+    </div>
+    <div class="row normalMode">
+      <div class="col">
+        <button class="btn btn-success" onclick="MediaStreamAudioDestinationNode">Dodaj</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" onclick="updateTodo()">Edytuj</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-danger" onclick="removeTodo()">Usuń</button>
+      </div>
+    </div>
+    <div class="row updateMode">
+      <div class="col">
+        <button onclick="confirmUpdate()">Potwierdź</button>
+        <button onclick="cancelUpdate()">Anuluj</button>
+      </div>
+    </div>
+    <div class="row addMode">
+      <div class="col">
+        <button onclick="confirmAdd()">Potwierdź</button>
+        <button onclick="cancelAdd()">Anuluj</button>
+      </div>
+    </div>
+    <ul class="todo__todos"></ul>
+  </li>
+</template>
+<script src="./scripts/todoItem.js"></script>
+<script type="module" src="./scripts/todoDetail.js"></script>
