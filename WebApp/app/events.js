@@ -1,4 +1,3 @@
-function onAdd() {}
 function onConfirmAdd(parent, newTitleInput, newDescInput, taskElement, tasksList) {
   let todo = new Todo(
     parent.personId,
@@ -14,7 +13,54 @@ function onConfirmAdd(parent, newTitleInput, newDescInput, taskElement, tasksLis
     createTaskDOM(tasksList, todo, false);
   });
 }
-function onCancelAdd() {}
+
+function addSubtaskValidation(newDescInput,newTitleInput,saveBtn){
+  newDescInput.onkeyup=() =>{
+    if(newDescInput.value==='' || newTitleInput.value==='' ){
+      saveBtn.disabled=true;
+    }else{
+      saveBtn.disabled=false;
+    }
+  }
+  newTitleInput.onkeyup=() =>{
+    if(newDescInput.value==='' || newTitleInput.value==='' ){
+      saveBtn.disabled=true;
+    }else{
+      saveBtn.disabled=false;
+    }
+  }
+}
+
+function updateTaskValidation(title,description,saveBtn) {
+  title.onkeyup=() =>{
+   if(title.value==='' || description.value==='' ){
+     saveBtn.disabled=true;
+   }else{
+     saveBtn.disabled=false;
+   }
+ }
+ 
+ description.onkeyup=() =>{
+  if(title.value==='' || description.value==='' ){
+    saveBtn.disabled=true;
+  }else{
+    saveBtn.disabled=false;
+  }
+}
+}
+
+function ifAddTodoButtonActive () {
+  if(todoTitleInput.value=="" || todoDescriptionInput.value=="") { 
+    todoBtn.disabled = true; 
+     } else { 
+      todoBtn.disabled = false;
+     }
+ } 
+
+function resetButton(){
+  todoBtn.disabled = true; 
+}
+
 function onUpdate(title, description, ...buttons) {
   toggle(title, description, ...buttons);
 }
@@ -40,8 +86,6 @@ function onCancelUpdate(title, description, oldTask, ...buttons) {
   description.value = oldTask.description;
   toggle(title, description, ...buttons);
 }
-
-function onRemove() {}
 
 function toggle(title, description, ...buttons) {
   toggleReadOnly(title, description);

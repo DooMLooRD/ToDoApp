@@ -75,6 +75,7 @@ function createTaskDOM(tasksList, task, isInit) {
   const taskDivElement = create("div");
   const subtaskList = create("ul");
   const title = createInput(task.title, "m-2");
+  
   const description = createInput(task.description, "m-2");
   toggleReadOnly(title, description);
 
@@ -97,6 +98,8 @@ function createTaskDOM(tasksList, task, isInit) {
   const removeTaskBtn = createButton("Remove task", "m-2 btn-danger", () =>
     deleteTask(task.todoId, taskElement)
   );
+  
+  updateTaskValidation(title,description,saveBtn);
 
   const buttonPack = [addSubtaskBtn, updateTaskBtn, removeTaskBtn, saveBtn, cancelBtn];
   toggleDisplay(saveBtn, cancelBtn);
@@ -124,9 +127,12 @@ function createSubtaskDOM(tasksList, parent) {
   const cancelBtn = createButton("Cancel", "m-2 btn-danger", () =>
     removeElement(taskElement)
   );
+ 
   append(taskElement, newTitleInput, newDescInput, saveBtn, cancelBtn);
   append(tasksList, taskElement);
+  addSubtaskValidation(newTitleInput,newDescInput,saveBtn);
 }
+
 
 function todoDetailToTodo(todoDetail) {
   return new Todo(
@@ -138,14 +144,4 @@ function todoDetailToTodo(todoDetail) {
   );
 }
 
-function resetButton(){
-  todoBtn.disabled = true; 
-}
 
-function ifAddTodoButtonActive () {
-  if(todoTitleInput.value=="" || todoDescriptionInput.value=="") { 
-    todoBtn.disabled = true; 
-     } else { 
-      todoBtn.disabled = false;
-     }
- } 
