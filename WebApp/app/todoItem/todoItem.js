@@ -34,8 +34,6 @@ class TodoItem extends HTMLElement {
   }
 
   removeTodo(event) {
-    console.log(event.todoDetail);
-
     removeTodo(event.todoDetail.todoId)
       .then(() => {
         if (event.todoDetail.parentId === null) {
