@@ -38,11 +38,17 @@
         <div class="row">
           <hr class="border border-dark col" />
         </div>
+        <div class="row" id="todoRow">
+          <div class="col-3" id="assigned"></div>
+          <div class="col-8" id="tasks"></div>
+        </div>
       </div>
     </div>
-    <link rel="import" href="./todoRow/todoRow.html" />
     <script src="./services/todoService.js"></script>
+    <script src="./model/todoDetail.js"></script>
     <script src="./model/todo.js"></script>
+    <script src="./dom-editor.js"></script>
+    <script src="./btn-events.js"></script>
     <script src="./main.js"></script>
   </body>
 </html>
