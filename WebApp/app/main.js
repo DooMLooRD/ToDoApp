@@ -137,3 +137,11 @@ function todoDetailToTodo(todoDetail) {
     todoDetail.parentId
   );
 }
+
+function ifAddTodoButtonActive () {
+  if(todoTitleInput.value=="" || todoDescriptionInput.value=="") { 
+    todoBtn.disabled = true; 
+     } else { 
+      todoBtn.disabled = false;
+     }
+ } 
