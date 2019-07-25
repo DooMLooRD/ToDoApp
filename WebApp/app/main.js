@@ -3,8 +3,10 @@ const todoAssignedInput = document.getElementById("todoAssigned");
 const todoDescriptionInput = document.getElementById("todoDescription");
 const todoTitleInput = document.getElementById("todoTitle");
 const todoBtn = document.getElementById("addTodoButton");
+const todos = document.getElementById("todos");
 
 todoBtn.onclick = addTodo;
+
 loadPersons();
 loadToDos();
 
@@ -24,6 +26,7 @@ function loadToDos() {
     resp.forEach(task => {
       createRowDOM(task, true);
     });
+    tableVisible();
   });
 }
 
@@ -51,21 +54,22 @@ function deleteTask(id, item) {
       parent = parent.parentNode.parentNode;
       parent.parentNode.removeChild(parent);
     }
+    tableVisible();
   });
 }
 
 function createRowDOM(todo, isInit) {
-  const todoRowTemplate = document.getElementById("todoRow").cloneNode(true);
-  const todoAssigned = document.getElementById("assigned");
-  const todoTasks = document.getElementById("tasks");
+  const todoRowTemplate = create("div", "row");
+  const todoAssigned = create("div", "col-3");
+  const todoTasks = create("div", "col-8");
   const tasksList = create("ul");
 
   todoAssigned.textContent = todo.personFullName;
   append(todoTasks, tasksList);
-  removeAttribute("id", document.getElementById("todoRow"), todoAssigned, todoTasks);
-
   createTaskDOM(tasksList, todo, isInit);
-  append(todosTable, todoRowTemplate);
+  append(todoRowTemplate, todoAssigned, todoTasks);
+  append(todos, todoRowTemplate);
+  tableVisible();
 }
 
 function createTaskDOM(tasksList, task, isInit) {
@@ -98,7 +102,13 @@ function createTaskDOM(tasksList, task, isInit) {
     deleteTask(task.todoId, taskElement)
   );
 
-  const buttonPack = [addSubtaskBtn, updateTaskBtn, removeTaskBtn, saveBtn, cancelBtn];
+  const buttonPack = [
+    addSubtaskBtn,
+    updateTaskBtn,
+    removeTaskBtn,
+    saveBtn,
+    cancelBtn
+  ];
   toggleDisplay(saveBtn, cancelBtn);
   append(taskDivElement, title, description, ...buttonPack);
   append(taskContainer, taskDivElement);
@@ -136,4 +146,11 @@ function todoDetailToTodo(todoDetail) {
     todoDetail.description,
     todoDetail.parentId
   );
+}
+
+function tableVisible() {
+  if (todos.childNodes.length == 0) todosTable.style.display = "none";
+  else {
+    todosTable.style.display = "block";
+  }
 }

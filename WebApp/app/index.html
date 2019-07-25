@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="./index.css" />
     <title>Index</title>
   </head>
 
@@ -30,18 +31,19 @@
       </form>
       <button id="addTodoButton" class="btn btn-primary">Add todo</button>
 
-      <div id="todosTable" class="mt-5">
+      <div id="todosTable" class="mt-5 noneDisplay">
         <div class="row">
-          <h4 class="col-12 col-md-4  font-weight-bold">Assigned to</h4>
-          <h4 class="col-6 col-md-8 font-weight-bold">Task</h4>
+          <h4 class="col-3  font-weight-bold">
+            Assigned to
+          </h4>
+          <h4 class="col-9  font-weight-bold">
+            Task
+          </h4>
         </div>
         <div class="row">
           <hr class="border border-dark col" />
         </div>
-        <div class="row" id="todoRow">
-          <div class="col-3" id="assigned"></div>
-          <div class="col-8" id="tasks"></div>
-        </div>
+        <div class="container" id="todos"></div>
       </div>
     </div>
     <script src="./services/todoService.js"></script>
