@@ -33,7 +33,7 @@ function addTodo() {
   const todoTitle = todoTitleInput.value;
   todoTitleInput.value = "";
   const todoAssigned = todoAssignedInput.value;
-  todoAssignedInput.value = "";
+  resetButton();
   let todoEl = new Todo(todoAssigned, 0, todoTitle, todoDesc, null);
 
   createTodo(todoEl).then(res => {
@@ -136,6 +136,10 @@ function todoDetailToTodo(todoDetail) {
     todoDetail.description,
     todoDetail.parentId
   );
+}
+
+function resetButton(){
+  todoBtn.disabled = true; 
 }
 
 function ifAddTodoButtonActive () {
