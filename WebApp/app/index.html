@@ -8,13 +8,19 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" type="text/css" href="../app/index.css">
+    <<<<<<< HEAD
+    <link rel="stylesheet" type="text/css" href="../app/index.css" />
+    =======
+    <link rel="stylesheet" href="./index.css" />
+    >>>>>>> fix/tableVisibility
     <title>Index</title>
   </head>
 
   <body>
     <div class="container">
-      <div class="mx-auto font-weight-bold text-large" style="width: 200px;">Todo List</div>
+      <div class="mx-auto font-weight-bold text-large" style="width: 200px;">
+        Todo List
+      </div>
       <form>
         <div class="form-group">
           <label for="todoAssigned">Assigned to</label>
@@ -22,27 +28,38 @@
         </div>
         <div class="form-group">
           <label for="todoTitle">Todo's title</label>
-          <input class="form-control" type="text" id="todoTitle" onkeyup="ifAddTodoButtonActive() " placeholder="Enter yours Todo's title"/>
+          <input
+            class="form-control"
+            type="text"
+            id="todoTitle"
+            onkeyup="ifAddTodoButtonActive() "
+            placeholder="Enter yours Todo's title"
+          />
         </div>
         <div class="form-group">
           <label for="todoDescription">Todo's description</label>
-          <input class="form-control" type="text" id="todoDescription" onkeyup="ifAddTodoButtonActive()" placeholder="Enter yours Todo's description"/>
+          <input
+            class="form-control"
+            type="text"
+            id="todoDescription"
+            onkeyup="ifAddTodoButtonActive()"
+            placeholder="Enter yours Todo's description"
+          />
         </div>
       </form>
-      <button id="addTodoButton" class="btn btn-primary" disabled>Add todo</button>
+      <button id="addTodoButton" class="btn btn-primary" disabled>
+        Add todo
+      </button>
 
-      <div id="todosTable" class="mt-5">
+      <div id="todosTable" class="mt-5 noneDisplay">
         <div class="row">
-          <div class="col-12 col-md-4 font-weight-bold text-large2">Assigned to</div>
-          <div class="col-6 col-md-8 font-weight-bold text-large2">Task</div>
+          <div class="col-3 font-weight-bold text-large2">Assigned to</div>
+          <div class="col-9 font-weight-bold text-large2">Task</div>
         </div>
         <div class="row">
           <hr class="border border-dark col" />
         </div>
-        <div class="row" id="todoRow">
-          <div class="col-3" id="assigned"></div>
-          <div class="col-8" id="tasks"></div>
-        </div>
+        <div class="container" id="todos"></div>
       </div>
     </div>
     <script src="./services/todoService.js"></script>

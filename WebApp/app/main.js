@@ -3,8 +3,10 @@ const todoAssignedInput = document.getElementById("todoAssigned");
 const todoDescriptionInput = document.getElementById("todoDescription");
 const todoTitleInput = document.getElementById("todoTitle");
 const todoBtn = document.getElementById("addTodoButton");
+const todos = document.getElementById("todos");
 
 todoBtn.onclick = addTodo;
+
 loadPersons();
 loadToDos();
 
@@ -24,6 +26,7 @@ function loadToDos() {
     resp.forEach(task => {
       createRowDOM(task, true);
     });
+    tableVisible();
   });
 }
 
@@ -51,21 +54,22 @@ function deleteTask(id, item) {
       parent = parent.parentNode.parentNode;
       parent.parentNode.removeChild(parent);
     }
+    tableVisible();
   });
 }
 
 function createRowDOM(todo, isInit) {
-  const todoRowTemplate = document.getElementById("todoRow").cloneNode(true);
-  const todoAssigned = document.getElementById("assigned");
-  const todoTasks = document.getElementById("tasks");
+  const todoRowTemplate = create("div", "row");
+  const todoAssigned = create("div", "col-3");
+  const todoTasks = create("div", "col-8");
   const tasksList = create("ul");
 
   todoAssigned.textContent = todo.personFullName;
   append(todoTasks, tasksList);
-  removeAttribute("id", document.getElementById("todoRow"), todoAssigned, todoTasks);
-
   createTaskDOM(tasksList, todo, isInit);
-  append(todosTable, todoRowTemplate);
+  append(todoRowTemplate, todoAssigned, todoTasks);
+  append(todos, todoRowTemplate);
+  tableVisible();
 }
 
 function createTaskDOM(tasksList, task, isInit) {
@@ -75,7 +79,7 @@ function createTaskDOM(tasksList, task, isInit) {
   const taskDivElement = create("div");
   const subtaskList = create("ul");
   const title = createInput(task.title, "m-2");
-  
+
   const description = createInput(task.description, "m-2");
   toggleReadOnly(title, description);
 
@@ -98,10 +102,16 @@ function createTaskDOM(tasksList, task, isInit) {
   const removeTaskBtn = createButton("Remove task", "m-2 btn-danger", () =>
     deleteTask(task.todoId, taskElement)
   );
-  
-  updateTaskValidation(title,description,saveBtn);
 
-  const buttonPack = [addSubtaskBtn, updateTaskBtn, removeTaskBtn, saveBtn, cancelBtn];
+  updateTaskValidation(title, description, saveBtn);
+
+  const buttonPack = [
+    addSubtaskBtn,
+    updateTaskBtn,
+    removeTaskBtn,
+    saveBtn,
+    cancelBtn
+  ];
   toggleDisplay(saveBtn, cancelBtn);
   append(taskDivElement, title, description, ...buttonPack);
   append(taskContainer, taskDivElement);
@@ -127,12 +137,11 @@ function createSubtaskDOM(tasksList, parent) {
   const cancelBtn = createButton("Cancel", "m-2 btn-danger", () =>
     removeElement(taskElement)
   );
- 
+
   append(taskElement, newTitleInput, newDescInput, saveBtn, cancelBtn);
   append(tasksList, taskElement);
-  addSubtaskValidation(newTitleInput,newDescInput,saveBtn);
+  addSubtaskValidation(newTitleInput, newDescInput, saveBtn);
 }
-
 
 function todoDetailToTodo(todoDetail) {
   return new Todo(
@@ -144,4 +153,9 @@ function todoDetailToTodo(todoDetail) {
   );
 }
 
-
+function tableVisible() {
+  if (todos.childNodes.length == 0) todosTable.style.display = "none";
+  else {
+    todosTable.style.display = "block";
+  }
+}
