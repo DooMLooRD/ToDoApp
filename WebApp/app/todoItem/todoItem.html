@@ -1,0 +1,40 @@
+<template id="todo-item-template">
+  <style>
+    @import "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css";
+  </style>
+  <li>
+    <div class="row">
+      <div class="col">
+        <input class="todo__title form-control m-2" readonly />
+      </div>
+      <div class="col">
+        <input class="todo__description form-control m-2" readonly />
+      </div>
+    </div>
+    <div class="row normalMode ml-2">
+      <button class="btn btn-primary add-button m-2">
+        Dodaj
+      </button>
+      <button class="btn btn-success edit-button m-2">Edytuj</button>
+      <button class="btn btn-danger remove-button m-2">Usuń</button>
+    </div>
+    <div class="row updateMode ml-2">
+      <button class="btn btn-success confirm-update-button m-2">
+        Potwierdź
+      </button>
+      <button class="btn btn-danger cancel-update-button m-2">
+        Anuluj
+      </button>
+    </div>
+    <div class="row addMode ml-2">
+      <button class="btn btn-success confirm-add-button m-2">
+        Potwierdź
+      </button>
+      <button class="btn btn-danger cancel-add-button m-2">Anuluj</button>
+    </div>
+    <ul class="todo__todos"></ul>
+  </li>
+</template>
+<script src="./todoItem.js"></script>
+<script src="./todoItemRender.js"></script>
+<script src="../model/todoDetail.js"></script>
