@@ -1,4 +1,10 @@
-function onConfirmAdd(parent, newTitleInput, newDescInput, taskElement, tasksList) {
+function onConfirmAdd(
+  parent,
+  newTitleInput,
+  newDescInput,
+  taskElement,
+  tasksList
+) {
   let todo = new Todo(
     parent.personId,
     0,
@@ -7,58 +13,60 @@ function onConfirmAdd(parent, newTitleInput, newDescInput, taskElement, tasksLis
     parent.todoId
   );
 
-  createTodo(todo).then(res => {
-    todo = res;
-    removeElement(taskElement);
-    createTaskDOM(tasksList, todo, false);
-  });
+  createTodo(todo)
+    .then(res => {
+      todo = res;
+      removeElement(taskElement);
+      createTaskDOM(tasksList, todo, false);
+    })
+    .catch(() => alert("Couldn't create Todo"));
 }
 
-function addSubtaskValidation(newDescInput,newTitleInput,saveBtn){
-  newDescInput.onkeyup=() =>{
-    if(newDescInput.value==='' || newTitleInput.value==='' ){
-      saveBtn.disabled=true;
-    }else{
-      saveBtn.disabled=false;
+function addSubtaskValidation(newDescInput, newTitleInput, saveBtn) {
+  newDescInput.onkeyup = () => {
+    if (newDescInput.value === "" || newTitleInput.value === "") {
+      saveBtn.disabled = true;
+    } else {
+      saveBtn.disabled = false;
     }
-  }
-  newTitleInput.onkeyup=() =>{
-    if(newDescInput.value==='' || newTitleInput.value==='' ){
-      saveBtn.disabled=true;
-    }else{
-      saveBtn.disabled=false;
+  };
+  newTitleInput.onkeyup = () => {
+    if (newDescInput.value === "" || newTitleInput.value === "") {
+      saveBtn.disabled = true;
+    } else {
+      saveBtn.disabled = false;
     }
+  };
+}
+
+function updateTaskValidation(title, description, saveBtn) {
+  title.onkeyup = () => {
+    if (title.value === "" || description.value === "") {
+      saveBtn.disabled = true;
+    } else {
+      saveBtn.disabled = false;
+    }
+  };
+
+  description.onkeyup = () => {
+    if (title.value === "" || description.value === "") {
+      saveBtn.disabled = true;
+    } else {
+      saveBtn.disabled = false;
+    }
+  };
+}
+
+function ifAddTodoButtonActive() {
+  if (todoTitleInput.value == "" || todoDescriptionInput.value == "") {
+    todoBtn.disabled = true;
+  } else {
+    todoBtn.disabled = false;
   }
 }
 
-function updateTaskValidation(title,description,saveBtn) {
-  title.onkeyup=() =>{
-   if(title.value==='' || description.value==='' ){
-     saveBtn.disabled=true;
-   }else{
-     saveBtn.disabled=false;
-   }
- }
- 
- description.onkeyup=() =>{
-  if(title.value==='' || description.value==='' ){
-    saveBtn.disabled=true;
-  }else{
-    saveBtn.disabled=false;
-  }
-}
-}
-
-function ifAddTodoButtonActive () {
-  if(todoTitleInput.value=="" || todoDescriptionInput.value=="") { 
-    todoBtn.disabled = true; 
-     } else { 
-      todoBtn.disabled = false;
-     }
- } 
-
-function resetButton(){
-  todoBtn.disabled = true; 
+function resetButton() {
+  todoBtn.disabled = true;
 }
 
 function onUpdate(title, description, ...buttons) {
@@ -74,10 +82,10 @@ function onConfirmUpdate(task, title, description, oldTask, ...buttons) {
       oldTask.description = task.description;
       toggle(title, description, ...buttons);
     })
-    .catch(exception => {
+    .catch(() => {
       task.title = oldTask.title;
       task.description = oldTask.description;
-      alert(exception);
+      alert("Couldn't update Todo");
     });
 }
 
