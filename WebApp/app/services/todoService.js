@@ -10,9 +10,7 @@ function createTodo(todo) {
     method: "POST",
     body: JSON.stringify(todo),
     headers: { "Content-Type": "application/json" }
-  })
-    .then(resp => resp.json())
-    .catch(() => alert("Couldn't create Todo"));
+  }).then(resp => resp.json());
 }
 
 function updateTodo(todo) {
@@ -20,25 +18,19 @@ function updateTodo(todo) {
     method: "PUT",
     body: JSON.stringify(todo),
     headers: { "Content-Type": "application/json" }
-  })
-    .then(resp => resp.json())
-    .catch(() => alert("Couldn't update Todo"));
+  }).then(resp => resp.json());
 }
 
 function removeTodo(id) {
   return fetch(removeTodoUrl + "?id=" + id, {
     method: "delete"
-  }).catch(() => alert("Couldn't remove Todo"));
+  });
 }
 
 function getAllTodos() {
-  return fetch(getAllTodoUrl)
-    .then(resp => resp.json())
-    .catch(() => alert("Couldn't load Todos"));
+  return fetch(getAllTodoUrl).then(resp => resp.json());
 }
 
 function getAllPerson() {
-  return fetch(getAllPersonUrl)
-    .then(resp => resp.json())
-    .catch(() => alert("Couldn't load resources"));
+  return fetch(getAllPersonUrl).then(resp => resp.json());
 }

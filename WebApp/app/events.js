@@ -13,11 +13,13 @@ function onConfirmAdd(
     parent.todoId
   );
 
-  createTodo(todo).then(res => {
-    todo = res;
-    removeElement(taskElement);
-    createTaskDOM(tasksList, todo, false);
-  });
+  createTodo(todo)
+    .then(res => {
+      todo = res;
+      removeElement(taskElement);
+      createTaskDOM(tasksList, todo, false);
+    })
+    .catch(() => alert("Couldn't create Todo"));
 }
 
 function addSubtaskValidation(newDescInput, newTitleInput, saveBtn) {
@@ -90,10 +92,10 @@ function onConfirmUpdate(task, title, description, oldTask, ...buttons) {
       oldTask.description = task.description;
       toggle(title, description, ...buttons);
     })
-    .catch(exception => {
+    .catch(() => {
       task.title = oldTask.title;
       task.description = oldTask.description;
-      alert(exception);
+      alert("Couldn't update Todo");
     });
 }
 

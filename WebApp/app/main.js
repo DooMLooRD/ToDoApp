@@ -11,23 +11,27 @@ loadPersons();
 loadToDos();
 
 function loadPersons() {
-  getAllPerson().then(resp => {
-    resp.forEach(person => {
-      let option = create("option");
-      option.value = person.pesel;
-      option.text = person.name + " " + person.surname;
-      todoAssignedInput.add(option);
-    });
-  });
+  getAllPerson()
+    .then(resp => {
+      resp.forEach(person => {
+        let option = create("option");
+        option.value = person.pesel;
+        option.text = person.name + " " + person.surname;
+        todoAssignedInput.add(option);
+      });
+    })
+    .catch(() => alert("Couldn't load resources"));
 }
 
 function loadToDos() {
-  getAllTodos().then(resp => {
-    resp.forEach(task => {
-      createRowDOM(task, true);
-    });
-    tableVisible();
-  });
+  getAllTodos()
+    .then(resp => {
+      resp.forEach(task => {
+        createRowDOM(task, true);
+      });
+      tableVisible();
+    })
+    .catch(() => alert("Couldn't load Todos"));
 }
 
 function addTodo() {
@@ -39,23 +43,27 @@ function addTodo() {
   resetButton();
   let todoEl = new Todo(todoAssigned, 0, todoTitle, todoDesc, null);
 
-  createTodo(todoEl).then(res => {
-    todoEl = res;
-    createRowDOM(todoEl, false);
-  });
+  createTodo(todoEl)
+    .then(res => {
+      todoEl = res;
+      createRowDOM(todoEl, false);
+    })
+    .catch(() => alert("Couldn't create Todo"));
 }
 
 function deleteTask(id, item) {
-  removeTodo(id).then(() => {
-    let parent = item.parentNode;
-    parent.removeChild(item);
+  removeTodo(id)
+    .then(() => {
+      let parent = item.parentNode;
+      parent.removeChild(item);
 
-    if (parent.parentNode.parentNode.className == "row") {
-      parent = parent.parentNode.parentNode;
-      parent.parentNode.removeChild(parent);
-    }
-    tableVisible();
-  });
+      if (parent.parentNode.parentNode.className == "row") {
+        parent = parent.parentNode.parentNode;
+        parent.parentNode.removeChild(parent);
+      }
+      tableVisible();
+    })
+    .catch(() => alert("Couldn't remove Todo"));
 }
 
 function createRowDOM(todo, isInit) {
