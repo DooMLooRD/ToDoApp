@@ -5,8 +5,8 @@ const todoTitleInput = document.getElementById("todoTitle");
 const todoBtn = document.getElementById("addTodoButton");
 const todos = document.getElementById("todos");
 
-todoBtn.onclick = addTodo;
-
+todoBtn.addEventListener("click", addTodo);
+ifAddTodoButtonActive(todoTitleInput, todoDescriptionInput, todoBtn);
 loadPersons();
 loadToDos();
 
