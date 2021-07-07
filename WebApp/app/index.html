@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./index.css" />
+  <title>Index</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="mx-auto font-weight-bold text-large" style="width: 200px;">
+      Todo List
+    </div>
+    <form>
+      <div class="form-group">
+        <label for="todoAssigned">Assigned to</label>
+        <select name="todoAssigned" id="todoAssigned"></select>
+      </div>
+      <div class="form-group">
+        <label for="todoTitle">Todo's title</label>
+        <input class="form-control" type="text" id="todoTitle" placeholder="Enter yours Todo's title" />
+      </div>
+      <div class="form-group">
+        <label for="todoDescription">Todo's description</label>
+        <input class="form-control" type="text" id="todoDescription" placeholder="Enter yours Todo's description" />
+      </div>
+    </form>
+    <button id="addTodoButton" class="btn btn-primary" disabled>
+      Add todo
+    </button>
+    <div id="todosTable" class="mt-5 noneDisplay">
+      <div class="row">
+        <div class="col-6 col-md-3 font-weight-bold text-large2">
+          Assigned to
+        </div>
+        <div class="col-6 col-md-9 font-weight-bold text-large2">Task</div>
+      </div>
+      <div class="row">
+        <hr class="border border-dark col" />
+      </div>
+      <div class="container" id="todos"></div>
+    </div>
+    <div class="container" id="todos"></div>
+  </div>
+  </div>
+  <script src="./services/todoService.js"></script>
+  <script src="./model/todoDetail.js"></script>
+  <script src="./model/todo.js"></script>
+  <script src="./dom-editor.js"></script>
+  <script src="./events.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>
